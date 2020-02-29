@@ -22,9 +22,9 @@ class RelationColumn extends Common implements ContextInterface
     private string $relationType;
 
 
-    public function __construct(string $tableName, string $relationType)
+    public function __construct(string $tableName, string $relationType, $options = [])
     {
-        parent::__construct($tableName);
+        parent::__construct($tableName, $options);
         $this->relationType = $relationType;
     }
 

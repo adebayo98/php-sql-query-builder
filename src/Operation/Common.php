@@ -8,12 +8,12 @@ abstract class Common
 {
     protected string $tableName;
 
-    protected string $dbProvider;
+    protected array $options;
 
-    public function __construct(string $tableName, string $dbProvider = 'mysql')
+    public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->dbProvider = $dbProvider;
+        $this->options = $options;
     }
 
     public function getTableName(): string

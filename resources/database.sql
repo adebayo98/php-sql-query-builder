@@ -1,13 +1,13 @@
-﻿# ************************************************************
+# ************************************************************
 # Sequel Pro SQL dump
 # Version 4541
 #
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Hôte: localhost (MySQL 5.7.23)
-# Base de données: php-graph-Sql
-# Temps de génération: 2020-02-29 11:12:41 +0000
+# Hôte: 62.210.16.27 (MySQL 5.7.17-log)
+# Base de données: le-reseau
+# Temps de génération: 2020-02-29 21:11:29 +0000
 # ************************************************************
 
 
@@ -101,6 +101,7 @@ CREATE TABLE `comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `content` text,
   `article_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `created_at` date DEFAULT NULL,
   `updated_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -110,11 +111,12 @@ CREATE TABLE `comment` (
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 
-INSERT INTO `comment` (`id`, `content`, `article_id`, `created_at`, `updated_at`)
+INSERT INTO `comment` (`id`, `content`, `article_id`, `user_id`, `created_at`, `updated_at`)
 VALUES
-	(1,'Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.',1,'2020-02-26','2020-02-26'),
-	(2,'Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum.',1,'2020-02-26','2020-02-26'),
-	(3,'On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions.',1,'2020-02-26','2020-02-26');
+	(1,'Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.',1,1,'2020-02-26','2020-02-26'),
+	(2,'Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum.',1,2,'2020-02-26','2020-02-26'),
+	(3,'On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions.',2,1,'2020-02-26','2020-02-26'),
+	(4,'On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions.',2,1,'2020-02-26','2020-02-26');
 
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
