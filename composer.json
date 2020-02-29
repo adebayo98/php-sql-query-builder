@@ -1,0 +1,27 @@
+{
+    "name": "hountondjiadebayo/php-query-builder",
+    "description": "Php pdo query builder",
+    "type": "library",
+    "license": "WTFPL",
+    "keywords": ["php", "pdo", "mysql", "query builder"],
+    "authors": [
+        {
+            "name": "adebayo98",
+            "email": "hountondjigodwill@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Adebayo\\QueryBuilder\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/dbunit": "^4.0"
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit --color "
+    }
+}
