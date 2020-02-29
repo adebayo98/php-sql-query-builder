@@ -15,7 +15,9 @@ class ColumnParser
                 $strFields.= "{$column}, ";
             }
             if (is_array($column)){
-                $strFields.= array_keys($column)[0] . " AS {$column[array_keys($column)[0]]}, ";
+                foreach ($column as $key => $item){
+                    $strFields.= "{$key} AS {$item}, ";
+                }
             }
         }
 

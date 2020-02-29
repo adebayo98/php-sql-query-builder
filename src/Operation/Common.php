@@ -6,7 +6,6 @@ namespace Adebayo\QueryBuilder\Operation;
 
 abstract class Common
 {
-
     protected string $tableName;
 
     protected string $dbProvider;
@@ -24,6 +23,6 @@ abstract class Common
 
     public function __toString()
     {
-        return '';
+        // Overloaded this method in the child class.
     }
 }

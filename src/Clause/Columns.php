@@ -3,10 +3,6 @@
 
 namespace Adebayo\QueryBuilder\Clause;
 
-
-use Adebayo\QueryBuilder\Operation\Select;
-use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Model\ObjectField;
 use Adebayo\QueryBuilder\Model\RelationColumn;
 
 
@@ -19,7 +15,6 @@ trait Columns
     public function addColumns(...$fields)
     {
         $this->columns = [...$this->columns, ...$fields];
-
         return $this;
     }
 
@@ -50,6 +45,9 @@ trait Columns
         return $this;
     }
 
+    /**
+     * @need MySQL >= 5.7.22
+     */
     public function addColumnCollection(string $tableName, string $childKey, string $parentKey, ?callable $callable = null)
     {
         $query = (new RelationColumn($tableName, 'collection'))
