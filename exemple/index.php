@@ -13,6 +13,10 @@ $qb = QueryBuilder::select('article')
     ->addColumnCollection('comment', 'article_id', 'id', function (RelationColumn $collectionColumn){
         return $collectionColumn->addColumns('id', 'content')
             ->setAlias('comments')
+            ->addColumnObject('user', 'id', 'user_id', function (RelationColumn $objectColumn){
+                return $objectColumn->addColumns('last_name', 'email')->setAlias('commentator');
+            })
+            ->limit(1)
         ;
     });
 ;
