@@ -6,7 +6,6 @@ namespace Adebayo\QueryBuilder\Helper;
 
 class ColumnParser
 {
-
     public static function stringRow(array $columns)
     {
         $strFields = "";
@@ -38,12 +37,4 @@ class ColumnParser
 
         return substr(trim($jsonObjectContent), 0, -1);
     }
-
-    public static function collectionRow()
-    {
-
-    }
-
 }
-
-// JSON_ARRAYAGG(json_object('content', comment.content)) as comments,

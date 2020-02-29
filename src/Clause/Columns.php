@@ -7,7 +7,7 @@ namespace Adebayo\QueryBuilder\Clause;
 use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Model\ObjectField;
-use Adebayo\QueryBuilder\Relation\ObjectColumn;
+use Adebayo\QueryBuilder\Model\RelationColumn;
 
 
 trait Columns
@@ -25,6 +25,7 @@ trait Columns
 
     public function addSubQueryField(?string $alias, callable $callable)
     {
+        // @todo Throw exception if $callable not return Select instance
         $this->addColumns(
             "(" . $callable()->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
         );
@@ -34,33 +35,50 @@ trait Columns
 
     public function addColumnObject(string $tableName, string $childKey, string $parentKey, ?callable $callable = null)
     {
-        $query = (new ObjectColumn($tableName))
+        $query = (new RelationColumn($tableName, 'object'))
             ->where("{$tableName}.{$childKey} = {$this->tableName()}.{$parentKey}")
             ->limit(1)
         ;
 
         if ($callable !== null){
+            // @todo Throw exception if $callable not return RelationColumn instance
             $query = call_user_func_array($callable, [$query]);
         }
 
+        $this->bindRelationColumnToContext($query);
+
+        return $this;
+    }
+
+    public function addColumnCollection(string $tableName, string $childKey, string $parentKey, ?callable $callable = null)
+    {
+        $query = (new RelationColumn($tableName, 'collection'))
+            ->where("{$tableName}.{$childKey} = {$this->tableName()}.{$parentKey}")
+        ;
+
+        if ($callable !== null){
+            // @todo Throw exception if $callable not return RelationColumn instance
+            $query = call_user_func_array($callable, [$query]);
+        }
+
+        $this->bindRelationColumnToContext($query);
+
+        return $this;
+    }
+
+    private function bindRelationColumnToContext(RelationColumn $instance)
+    {
         if ($this->isQueryBase()){
-            $this->addSubQueryField($query->getAlias() ?? $query->tableName(), function () use ($query) {
-                return $query;
+            $this->addSubQueryField($instance->getAlias() ?? $instance->tableName(), function () use ($instance) {
+                return $instance;
             });
         }
 
         if (!$this->isQueryBase()){
             $this->addColumns(
-                ["(" . $query->__toString() . ")" => $query->getAlias() ?? $query->tableName()]
+                ["(" . $instance->__toString() . ")" => $instance->getAlias() ?? $instance->tableName()]
             );
         }
-
-        return $this;
-    }
-
-    public function addColumnCollection()
-    {
-
     }
 
     public function getColumns()

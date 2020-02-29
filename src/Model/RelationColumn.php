@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Relation;
+namespace Adebayo\QueryBuilder\Model;
 
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
@@ -11,7 +11,7 @@ use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Contract\ContextInterface;
 
 
-class ObjectColumn extends Common implements ContextInterface
+class RelationColumn extends Common implements ContextInterface
 {
     use Columns;
     use Where;
@@ -19,6 +19,14 @@ class ObjectColumn extends Common implements ContextInterface
 
     private ?string $alias = null;
 
+    private string $relationType;
+
+
+    public function __construct(string $tableName, string $relationType)
+    {
+        parent::__construct($tableName);
+        $this->relationType = $relationType;
+    }
 
     public function __toString()
     {
@@ -37,7 +45,27 @@ class ObjectColumn extends Common implements ContextInterface
 
     private function parseColumns()
     {
+        return $this->relationType === 'object' ? $this->parseColumnsObject() : $this->parseColumnsCollection();
+    }
+
+    private function parseColumnsObject()
+    {
         return "json_object(" . ColumnParser::objectRow($this->columns) . ")";
+    }
+
+    private function parseColumnsCollection()
+    {
+        return "json_arrayagg({$this->parseColumnsObject()})";
+    }
+
+    public function tableName(): string
+    {
+        return parent::getTableName();
+    }
+
+    public function isQueryBase(): bool
+    {
+        return false;
     }
 
     public function getAlias(): ?string
@@ -49,15 +77,5 @@ class ObjectColumn extends Common implements ContextInterface
     {
         $this->alias = $alias;
         return $this;
-    }
-
-    public function tableName(): string
-    {
-        return parent::getTableName();
-    }
-
-    public function isQueryBase(): bool
-    {
-        return false;
     }
 }

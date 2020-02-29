@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 use Adebayo\QueryBuilder\QueryBuilder;
 use Adebayo\QueryBuilder\Operation\Select;
-use Adebayo\QueryBuilder\Relation\ObjectColumn;
+use Adebayo\QueryBuilder\Model\RelationColumn;
 
 
 class SelectTest extends TestCase
