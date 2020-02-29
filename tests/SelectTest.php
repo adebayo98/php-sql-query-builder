@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 use Adebayo\QueryBuilder\QueryBuilder;
 use Adebayo\QueryBuilder\Operation\Select;
+use Adebayo\QueryBuilder\Relation\ObjectColumn;
 
 
 class SelectTest extends TestCase
@@ -25,21 +26,26 @@ class SelectTest extends TestCase
 
     public function sqlSelectRelationColumn()
     {
+        $addressSql = "(SELECT json_object('country', country, 'city', city, 'street', street) FROM address WHERE address.user_id = user.id LIMIT 1)";
+
         $sql = "
             SELECT 
             id, 
             title, 
             content,
-            (SELECT json_object('last_name', last_name, 'first_name', first_name) FROM user WHERE user.id = article.user_id) AS author
+            (SELECT json_object('last_name', last_name, 'first_name', first_name, 'address', {$addressSql}) FROM user WHERE user.id = article.user_id LIMIT 1) AS author
             FROM
             article
         ";
 
         $qb = QueryBuilder::select('article')
             ->addColumns('id', 'title', 'content')
-            ->addColumnObject('user', 'user_id', 'id', function ($objectColumn){
-                return $objectColumn->addColumns('last_name', 'first_name')
-                    ->setAlias('author')
+            ->addColumnObject('user', 'id', 'user_id', function (ObjectColumn $objectColumn){
+                return $objectColumn->setAlias('author')
+                    ->addColumns('last_name', 'first_name')
+                    ->addColumnObject('address', 'user_id', 'id', function (ObjectColumn $objectColumn){
+                        return $objectColumn->addColumns('country', 'city', 'street');
+                    })
                 ;
             })
         ;

@@ -32,10 +32,11 @@ trait Columns
         return $this;
     }
 
-    public function addColumnObject(string $tableName, string $foreignKey, string $localKey, ?callable $callable = null)
+    public function addColumnObject(string $tableName, string $childKey, string $parentKey, ?callable $callable = null)
     {
         $query = (new ObjectColumn($tableName))
-            ->where("{$tableName}.{$localKey} = {$this->tableName()}.{$foreignKey}")
+            ->where("{$tableName}.{$childKey} = {$this->tableName()}.{$parentKey}")
+            ->limit(1)
         ;
 
         if ($callable !== null){
@@ -50,7 +51,7 @@ trait Columns
 
         if (!$this->isQueryBase()){
             $this->addColumns(
-                ["(" . $query->__toString() . ")" => ($this->getAlias() === null ? $this->tableName() : $this->getAlias())]
+                ["(" . $query->__toString() . ")" => $query->getAlias() ?? $query->tableName()]
             );
         }
 

@@ -17,7 +17,7 @@ class ObjectColumn extends Common implements ContextInterface
     use Where;
     use Limit;
 
-    private ?string $alias;
+    private ?string $alias = null;
 
 
     public function __toString()
