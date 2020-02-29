@@ -9,9 +9,12 @@ abstract class Common
 
     protected string $tableName;
 
-    public function __construct(string $tableName)
+    protected string $dbProvider;
+
+    public function __construct(string $tableName, string $dbProvider = 'mysql')
     {
         $this->tableName = $tableName;
+        $this->dbProvider = $dbProvider;
     }
 
     public function getTableName(): string
