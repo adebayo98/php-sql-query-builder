@@ -58,6 +58,11 @@ trait Columns
         return $this;
     }
 
+    public function addColumnCollection()
+    {
+
+    }
+
     public function getColumns()
     {
         return $this->columns;

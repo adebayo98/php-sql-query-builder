@@ -40,10 +40,10 @@ class SelectTest extends TestCase
 
         $qb = QueryBuilder::select('article')
             ->addColumns('id', 'title', 'content')
-            ->addColumnObject('user', 'id', 'user_id', function (ObjectColumn $objectColumn){
+            ->addColumnObject('user', 'id', 'user_id', function ($objectColumn){
                 return $objectColumn->setAlias('author')
                     ->addColumns('last_name', 'first_name')
-                    ->addColumnObject('address', 'user_id', 'id', function (ObjectColumn $objectColumn){
+                    ->addColumnObject('address', 'user_id', 'id', function ($objectColumn){
                         return $objectColumn->addColumns('country', 'city', 'street');
                     })
                 ;
