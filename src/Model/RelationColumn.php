@@ -55,7 +55,7 @@ class RelationColumn extends Common implements ContextInterface
 
     private function parseColumnsCollection()
     {
-        return "json_arrayagg({$this->parseColumnsObject()})";
+        return "json_array({$this->parseColumnsObject()})";
     }
 
     public function tableName(): string
