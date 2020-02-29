@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Piece;
-
+namespace Adebayo\QueryBuilder\Clause;
 
 use Adebayo\QueryBuilder\Model\WhereGroup;
+
 
 trait Where
 {

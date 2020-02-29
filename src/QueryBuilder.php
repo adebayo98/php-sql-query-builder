@@ -3,7 +3,7 @@
 
 namespace Adebayo\QueryBuilder;
 
-use Adebayo\QueryBuilder\Crud\Select;
+use Adebayo\QueryBuilder\Operation\Select;
 
 
 class QueryBuilder

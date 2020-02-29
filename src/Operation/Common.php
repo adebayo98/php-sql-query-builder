@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Crud;
+namespace Adebayo\QueryBuilder\Operation;
 
 
 abstract class Common

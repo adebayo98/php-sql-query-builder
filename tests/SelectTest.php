@@ -3,13 +3,13 @@
 use PHPUnit\Framework\TestCase;
 
 use Adebayo\QueryBuilder\QueryBuilder;
-use Adebayo\QueryBuilder\Crud\Select;
+use Adebayo\QueryBuilder\Operation\Select;
 
 
 class SelectTest extends TestCase
 {
     /**
-     * @dataProvider sqlSelectAllFields
+     * @dataProvider sqlSelectAllFieldsAndLimitRows
      * @dataProvider sqlSelectCustomColumns
      * @dataProvider sqlSelectColumnsWithAlias
      * @dataProvider sqlSelectWithWhereClause
@@ -92,11 +92,13 @@ class SelectTest extends TestCase
         ];
     }
 
-    public function sqlSelectAllFields()
+    public function sqlSelectAllFieldsAndLimitRows()
     {
-        $sql = "SELECT * FROM article";
+        $sql = "SELECT * FROM article LIMIT 10";
 
-        $qb = QueryBuilder::select('article');
+        $qb = QueryBuilder::select('article')
+            ->limit(10)
+        ;
 
         return [
             [$this->prettify($sql), $qb]

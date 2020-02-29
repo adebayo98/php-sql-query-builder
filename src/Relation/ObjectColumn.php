@@ -3,9 +3,10 @@
 
 namespace Adebayo\QueryBuilder\Relation;
 
-use Adebayo\QueryBuilder\Piece\Where;
-use Adebayo\QueryBuilder\Crud\Common;
-use Adebayo\QueryBuilder\Piece\Columns;
+use Adebayo\QueryBuilder\Clause\Limit;
+use Adebayo\QueryBuilder\Clause\Where;
+use Adebayo\QueryBuilder\Operation\Common;
+use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Contract\ContextInterface;
 
@@ -14,6 +15,7 @@ class ObjectColumn extends Common implements ContextInterface
 {
     use Columns;
     use Where;
+    use Limit;
 
     private ?string $alias;
 
@@ -24,6 +26,10 @@ class ObjectColumn extends Common implements ContextInterface
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
+        }
+
+        if ($this->limit !== null){
+            $sql.= " LIMIT {$this->limit}";
         }
 
         return $sql;

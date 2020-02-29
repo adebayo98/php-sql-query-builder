@@ -1,12 +1,13 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Crud;
+namespace Adebayo\QueryBuilder\Operation;
 
+use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Piece\Join;
-use Adebayo\QueryBuilder\Piece\Where;
-use Adebayo\QueryBuilder\Piece\Columns;
+use Adebayo\QueryBuilder\Clause\Join;
+use Adebayo\QueryBuilder\Clause\Where;
+use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Contract\ContextInterface;
 
 
@@ -15,6 +16,7 @@ class Select extends Common implements ContextInterface
     use Columns;
     use Join;
     use Where;
+    use Limit;
 
     public function __toString()
     {
@@ -22,6 +24,10 @@ class Select extends Common implements ContextInterface
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
+        }
+
+        if ($this->limit !== null){
+            $sql.= " LIMIT {$this->limit}";
         }
 
         return $sql;

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Piece;
+namespace Adebayo\QueryBuilder\Clause;
 
 
-use Adebayo\QueryBuilder\Crud\Select;
+use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Model\ObjectField;
 use Adebayo\QueryBuilder\Relation\ObjectColumn;
