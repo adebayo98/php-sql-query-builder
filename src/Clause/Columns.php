@@ -9,7 +9,7 @@ use Adebayo\QueryBuilder\Model\RelationColumn;
 trait Columns
 {
 
-    private array $columns = [];
+    protected array $columns = [];
 
 
     public function addColumns(...$fields)
@@ -45,9 +45,6 @@ trait Columns
         return $this;
     }
 
-    /**
-     * @need MySQL >= 5.7.22
-     */
     public function addColumnCollection(string $tableName, string $childKey, string $parentKey, ?callable $callable = null)
     {
         $query = (new RelationColumn($tableName, 'collection'))

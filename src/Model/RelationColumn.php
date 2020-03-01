@@ -3,6 +3,7 @@
 
 namespace Adebayo\QueryBuilder\Model;
 
+use Adebayo\QueryBuilder\Clause\Distinct;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Operation\Common;
@@ -13,6 +14,7 @@ use Adebayo\QueryBuilder\Contract\ContextInterface;
 
 class RelationColumn extends Common implements ContextInterface
 {
+    use Distinct;
     use Columns;
     use Where;
     use Limit;
