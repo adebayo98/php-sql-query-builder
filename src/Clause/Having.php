@@ -3,7 +3,6 @@
 
 namespace Adebayo\QueryBuilder\Clause;
 
-// @todo Add other functionality if possible
 
 trait Having
 {

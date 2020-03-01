@@ -62,11 +62,12 @@ trait Where
     {
         $queryInstance = QueryBuilder::select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
+        // @todo finished this
     }
 
     private function parseWhereExist()
     {
-
+        // @todo implement this method
     }
 
     public function whereGroup(callable $callable): self

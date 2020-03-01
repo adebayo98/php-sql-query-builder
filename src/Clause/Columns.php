@@ -41,15 +41,13 @@ trait Columns
     {
         $query = (new RelationColumn($tableName, 'object'))
             ->where("{$tableName}.{$childKey} = {$this->tableName()}.{$parentKey}")
-            ->limit(1)
         ;
 
         if ($callable !== null){
-            // @todo Throw exception if $callable not return RelationColumn instance
             $query = call_user_func_array($callable, [$query]);
         }
 
-        $this->bindRelationColumnToContext($query);
+        $this->bindRelationColumnToContext($query->limit(1));
 
         return $this;
     }

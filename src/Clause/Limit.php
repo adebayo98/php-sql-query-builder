@@ -16,4 +16,9 @@ trait Limit
         return $this;
     }
 
+    public function getLimit(): ?int
+    {
+        return $this->limit;
+    }
+
 }

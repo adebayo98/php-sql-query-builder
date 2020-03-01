@@ -9,12 +9,13 @@ use Adebayo\QueryBuilder\Model\RelationColumn;
 class SelectTest extends TestCase
 {
 
-    public function testSelectAllFieldsAndLimitRows()
+    public function testSelectAllFieldsAndLimitRowsAnfOffset()
     {
-        $sql = $this->prettify("SELECT * FROM article LIMIT 10");
+        $sql = $this->prettify("SELECT * FROM article LIMIT 10 OFFSET 3");
 
         $qb = QueryBuilder::select('article')
             ->limit(10)
+            ->offset(3)
         ;
         $this->assertEquals($sql, $qb->__toString());
     }

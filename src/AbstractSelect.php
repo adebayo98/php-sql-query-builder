@@ -10,6 +10,7 @@ use Adebayo\QueryBuilder\Clause\GroupBy;
 use Adebayo\QueryBuilder\Clause\Having;
 use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
+use Adebayo\QueryBuilder\Clause\Offset;
 use Adebayo\QueryBuilder\Clause\OrderBy;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
@@ -27,6 +28,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     use GroupBy;
     use Having;
     use Limit;
+    use Offset;
     use OrderBy;
 
 
@@ -58,7 +60,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
         }
 
         if ($this->limit !== null){
-            $sql.= " LIMIT {$this->limit}";
+            $sql.= " LIMIT {$this->limit}"  . ($this->offset === null ? '' : " OFFSET {$this->offset}");
         }
 
         if (!empty($this->orderBy)){
