@@ -91,7 +91,7 @@ class SelectTest extends TestCase
         $sql = "SELECT * FROM article WHERE user_id IN (SELECT id FROM user WHERE is_active = 1)";
 
         $qb = QueryBuilder::select('article')
-            ->whereInSubQuery('user_id', 'user', function (\Adebayo\QueryBuilder\Operation\Select $query){
+            ->whereInSubQuery('user_id', 'user', function ($query){
                 return $query->addColumns('id')
                     ->where('is_active = 1')
                 ;
