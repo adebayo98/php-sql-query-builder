@@ -19,6 +19,26 @@ class SelectTest extends TestCase
         $this->assertEquals($sql, $qb->__toString());
     }
 
+    public function testSelectWithSqCache()
+    {
+        $sql = $this->prettify("SELECT SQL_CACHE * FROM article");
+
+        $qb = QueryBuilder::select('article')
+            ->sqlCache()
+        ;
+        $this->assertEquals($sql, $qb->__toString());
+    }
+
+    public function testSelectWithSqlNoCache()
+    {
+        $sql = $this->prettify("SELECT SQL_NO_CACHE * FROM article");
+
+        $qb = QueryBuilder::select('article')
+            ->sqlNoCache()
+        ;
+        $this->assertEquals($sql, $qb->__toString());
+    }
+
     public function testSelectDistinct()
     {
         $sql = "SELECT DISTINCT last_name FROM user";

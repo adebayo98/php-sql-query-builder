@@ -3,6 +3,7 @@
 
 namespace Adebayo\QueryBuilder;
 
+use Adebayo\QueryBuilder\Clause\Cache;
 use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Clause\Distinct;
 use Adebayo\QueryBuilder\Clause\Join;
@@ -14,6 +15,7 @@ use Adebayo\QueryBuilder\Model\SGBD;
 
 abstract class AbstractSelect extends Common implements ContextInterface
 {
+    use Cache;
     use Distinct;
     use Columns;
     use Join;
@@ -31,7 +33,9 @@ abstract class AbstractSelect extends Common implements ContextInterface
 
     public function __toString()
     {
-        $sql = "SELECT " . ($this->isDistinct() ? "{$this->parseDistinct()} " : '') . $this->parseColumns() . " FROM {$this->tableName}";
+        $distinct = $this->isDistinct() ? $this->parseDistinct() : '';
+
+        $sql = "SELECT{$this->parseSqlCache()}{$distinct} {$this->parseColumns()}" . " FROM {$this->tableName}";
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
@@ -46,7 +50,7 @@ abstract class AbstractSelect extends Common implements ContextInterface
 
     private function parseDistinct()
     {
-        return $this->sgbd === SGBD::ORACLE ? 'UNIQUE' : 'DISTINCT';
+        return $this->sgbd === SGBD::ORACLE ? ' UNIQUE' : ' DISTINCT';
     }
 
     public function tableName(): string
