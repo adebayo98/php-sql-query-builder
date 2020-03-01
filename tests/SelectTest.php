@@ -141,11 +141,11 @@ class SelectTest extends TestCase
 
     public function testOrderBy()
     {
-        $sql = "SELECT * FROM user ORDER BY last_name ASC, first_name DESC";
+        $sql = "SELECT * FROM user ORDER BY last_name DESC, first_name ASC";
 
         $qb = QueryBuilder::select('user')
-            ->addOrderBy('last_name', 'ASC')
-            ->addOrderBy('first_name', 'DESC')
+            ->addOrderBy('last_name', 'DESC')
+            ->addOrderBy('first_name', 'ASC')
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
