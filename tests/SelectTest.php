@@ -115,6 +115,17 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testGroupBy()
+    {
+        $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id";
+
+        $qb = QueryBuilder::select('comment')
+            ->addColumns('user_id', 'COUNT(*) AS total_comment')
+            ->groupBy('user_id')
+        ;
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     public function testSelectRelationColumn()
     {
         $addressSql = "(SELECT json_object('country', country, 'city', city, 'street', street) FROM address WHERE address.user_id = user.id LIMIT 1)";

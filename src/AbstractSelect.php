@@ -6,6 +6,7 @@ namespace Adebayo\QueryBuilder;
 use Adebayo\QueryBuilder\Clause\Cache;
 use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Clause\Distinct;
+use Adebayo\QueryBuilder\Clause\GroupBy;
 use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
@@ -21,6 +22,7 @@ abstract class AbstractSelect extends Common implements ContextInterface
     use Join;
     use Where;
     use Limit;
+    use GroupBy;
 
     private bool $isBaseQuery;
 
@@ -39,6 +41,10 @@ abstract class AbstractSelect extends Common implements ContextInterface
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
+        }
+
+        if ($this->groupBy !== null){
+            $sql.= " GROUP BY {$this->groupBy}";
         }
 
         if ($this->limit !== null){
