@@ -50,6 +50,10 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
             $sql.= " GROUP BY {$this->groupBy}" . ($this->withRollUp === null ? '' : ' WITH ROLLUP');
         }
 
+        if (!empty($this->having)){
+            $sql.= " HAVING {$this->parseHaving()}";
+        }
+
         if ($this->limit !== null){
             $sql.= " LIMIT {$this->limit}";
         }

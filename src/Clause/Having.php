@@ -3,7 +3,7 @@
 
 namespace Adebayo\QueryBuilder\Clause;
 
-// @todo Finished this clause
+// @todo Add other functionality if possible
 
 trait Having
 {
@@ -17,9 +17,20 @@ trait Having
         return $this;
     }
 
+    public function orHaving(string $condition): self
+    {
+        $this->having[] =  (empty($this->having) ? '' : 'OR ') . $condition;
+        return $this;
+    }
+
     public function getHaving(): array
     {
         return $this->having;
+    }
+
+    public function parseHaving(): string
+    {
+        return implode(' ', $this->having);
     }
 
 }
