@@ -6,6 +6,8 @@ require_once '../vendor/autoload.php';
 
 ini_set('display_errors', 1);
 
+echo "<pre>";
+
 $dsn = 'mysql:dbname=php-sql-query-builder;host=62.210.16.27;port=6069';
 $user = 'read-only';
 $password = 'read-only-user';
