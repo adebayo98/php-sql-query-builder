@@ -23,8 +23,8 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     use Columns;
     use Join;
     use Where;
-    use Having;
     use GroupBy;
+    use Having;
     use Limit;
 
     private bool $isBaseQuery;

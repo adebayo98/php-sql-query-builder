@@ -6,7 +6,6 @@ use Adebayo\QueryBuilder\Model\WhereGroup;
 use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\QueryBuilder;
 
-// @todo manage where NOT cases.
 
 trait Where
 {
@@ -26,37 +25,37 @@ trait Where
         return $this;
     }
 
-    public function whereIn(string $column, array $values): self
+    public function whereIn(string $column, array $values, bool $isNotIn = false): self
     {
-        $this->where($this->parseWhereIn($column, $values));
+        $this->where($this->parseWhereIn($column, $values, $isNotIn));
         return $this;
     }
 
-    public function orWhereIn(string $column, array $values): self
+    public function orWhereIn(string $column, array $values, bool $isNotIn = false): self
     {
-        $this->orWhere($this->parseWhereIn($column, $values));
+        $this->orWhere($this->parseWhereIn($column, $values, $isNotIn));
         return $this;
     }
 
-    public function whereInSubQuery(string $column, string $subQueryTableName, callable $callable): self
+    public function whereInSubQuery(string $column, string $subQueryTableName, callable $callable, bool $isNotIn = false): self
     {
         $queryInstance = QueryBuilder::select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
-        $this->where($this->parseWhereIn($column, $queryInstance));
+        $this->where($this->parseWhereIn($column, $queryInstance, $isNotIn));
         return $this;
     }
 
-    public function orWhereInSubQuery(string $column, string $subQueryTableName, callable $callable): self
+    public function orWhereInSubQuery(string $column, string $subQueryTableName, callable $callable, bool $isNotIn = false): self
     {
         $queryInstance = QueryBuilder::select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
-        $this->orWhere($this->parseWhereIn($column, $queryInstance));
+        $this->orWhere($this->parseWhereIn($column, $queryInstance, $isNotIn));
         return $this;
     }
 
-    private function parseWhereIn(string $column, $value): string
+    private function parseWhereIn(string $column, $value, bool $isNotIn = false): string
     {
-        return "{$column} IN (" . ($value instanceof Select ? $value->__toString() : implode(', ', $value)) . ")";
+        return "{$column} " . ($isNotIn === false ? '' : 'NOT ') . "IN (" . ($value instanceof Select ? $value->__toString() : implode(', ', $value)) . ")";
     }
 
     public function whereGroup(callable $callable): self
