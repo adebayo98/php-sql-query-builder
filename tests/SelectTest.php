@@ -72,15 +72,17 @@ class SelectTest extends TestCase
 
     public function testSelectWithWhereClause()
     {
-        $sql = "SELECT * FROM article WHERE id > 1 OR (id > 4 AND id < 8)";
+        $sql = "SELECT * FROM article WHERE tag_id IS NOT NULL OR (id > 4 AND id < 8) AND user_id IN (1, 2)";
 
         $qb = QueryBuilder::select('article')
-            ->where('id > 1')
+            ->where('tag_id IS NOT NULL')
             ->orWhereGroup(function ($groupWhere){
                 return $groupWhere->where('id > 4')
                     ->Where('id < 8')
-                    ;
-            });
+                ;
+            })
+            ->whereIn('user_id', [1, 2])
+        ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
