@@ -6,6 +6,7 @@ use Adebayo\QueryBuilder\Model\WhereGroup;
 use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\QueryBuilder;
 
+// @todo manage where NOT cases.
 
 trait Where
 {

@@ -11,6 +11,7 @@ use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\ContextInterface;
+use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Model\SGBD;
 
 
@@ -21,8 +22,8 @@ abstract class AbstractSelect extends Common implements ContextInterface
     use Columns;
     use Join;
     use Where;
-    use Limit;
     use GroupBy;
+    use Limit;
 
     private bool $isBaseQuery;
 
@@ -57,6 +58,11 @@ abstract class AbstractSelect extends Common implements ContextInterface
     private function parseDistinct()
     {
         return $this->sgbd === SGBD::ORACLE ? ' UNIQUE' : ' DISTINCT';
+    }
+
+    public function parseColumns()
+    {
+        return ColumnParser::stringRow($this->columns);
     }
 
     public function tableName(): string
