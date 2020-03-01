@@ -117,11 +117,11 @@ class SelectTest extends TestCase
 
     public function testGroupBy()
     {
-        $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id";
+        $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id WITH ROLLUP";
 
         $qb = QueryBuilder::select('comment')
             ->addColumns('user_id', 'COUNT(*) AS total_comment')
-            ->groupBy('user_id')
+            ->groupBy('user_id', true)
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }

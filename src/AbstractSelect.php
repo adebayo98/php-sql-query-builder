@@ -45,7 +45,7 @@ abstract class AbstractSelect extends Common implements ContextInterface
         }
 
         if ($this->groupBy !== null){
-            $sql.= " GROUP BY {$this->groupBy}";
+            $sql.= " GROUP BY {$this->groupBy}" . ($this->withRollUp === null ? '' : ' WITH ROLLUP');
         }
 
         if ($this->limit !== null){
