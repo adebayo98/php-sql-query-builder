@@ -29,7 +29,11 @@ $qb = QueryBuilder::select('article')
                         return $query->addColumns('COUNT(*)')->where('article.user_id = user.id');
                     });
             });
-    });
+    })
+    ->addColumnSubQuery('total_comment_count', 'comment', function ($query){
+        return $query->addColumns('COUNT(*)')->where('comment.article_id = article.id');
+    })
+;
 
 $smtp = $conn->prepare($qb->__toString());
 $smtp->execute();
