@@ -23,9 +23,16 @@ trait Columns
     {
         // @todo Throw exception if $callable not return Select instance
         $subQuery = call_user_func_array($callable, [QueryBuilder::select($subQueryTableName)]);
-        $this->addColumns(
-            "(" . $subQuery->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
-        );
+
+        if ($this->isQueryBase()){
+            $this->addColumns(
+                "(" . $subQuery->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
+            );
+        }
+
+        if (!$this->isQueryBase()){
+            $this->addColumns(["(" . $subQuery->__toString() . ")" => $alias]);
+        }
 
         return $this;
     }
@@ -69,6 +76,13 @@ trait Columns
             $this->addColumnSubQuery($instance->getAlias() ?? $instance->tableName(), $instance->tableName(), function () use ($instance) {
                 return $instance;
             });
+
+            if ($this->isQueryBase()){
+                $this->addColumns(
+                    "(" . $instance->__toString() . ")" . (" AS " . $instance->getAlias() ?? $instance->tableName())
+                );
+            }
+
         }
 
         if (!$this->isQueryBase()){

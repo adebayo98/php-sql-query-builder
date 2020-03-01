@@ -4,6 +4,8 @@ use Adebayo\QueryBuilder\QueryBuilder;
 
 require_once '../vendor/autoload.php';
 
+ini_set('display_errors', 1);
+
 echo "<pre>";
 
 $dsn = 'mysql:dbname=php-sql-query-builder;host=62.210.16.27;port=6069';
@@ -22,11 +24,12 @@ $qb = QueryBuilder::select('article')
         return $objectColumn->setAlias('author')
             ->addColumns('last_name', 'first_name')
             ->addColumnObject('address', 'user_id', 'id', function ($objectColumn){
-                return $objectColumn->addColumns('country', 'city', 'street');
-            })
-        ;
-    })
-;
+                return $objectColumn->addColumns('country', 'city', 'street')
+                    ->addColumnSubQuery('total_article_write', 'article', function ($query){
+                        return $query->addColumns('COUNT(*)')->where('article.user_id = user.id');
+                    });
+            });
+    });
 
 $smtp = $conn->prepare($qb->__toString());
 $smtp->execute();
