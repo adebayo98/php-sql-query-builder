@@ -10,6 +10,7 @@ use Adebayo\QueryBuilder\Clause\GroupBy;
 use Adebayo\QueryBuilder\Clause\Having;
 use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
+use Adebayo\QueryBuilder\Clause\OrderBy;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
@@ -26,6 +27,8 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     use GroupBy;
     use Having;
     use Limit;
+    use OrderBy;
+
 
     private bool $isBaseQuery;
 
@@ -56,6 +59,10 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
         if ($this->limit !== null){
             $sql.= " LIMIT {$this->limit}";
+        }
+
+        if (!empty($this->orderBy)){
+            $sql.= " ORDER BY {$this->parseOrderBy()}";
         }
 
         return $sql;

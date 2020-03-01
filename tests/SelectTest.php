@@ -86,6 +86,19 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testHavingClause()
+    {
+
+        $sql = " SELECT client, SUM(tarif) FROM achat GROUP BY client HAVING SUM(tarif) > 40";
+
+        $qb = QueryBuilder::select('achat')
+            ->addColumns('client', 'SUM(tarif)')
+            ->groupBy('client')
+            ->having('SUM(tarif) > 40')
+        ;
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     public function testWhereInSubQuery()
     {
         $sql = "SELECT * FROM article WHERE user_id IN (SELECT id FROM user WHERE is_active = 1)";
@@ -122,6 +135,17 @@ class SelectTest extends TestCase
         $qb = QueryBuilder::select('comment')
             ->addColumns('user_id', 'COUNT(*) AS total_comment')
             ->groupBy('user_id', true)
+        ;
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
+    public function testOrderBy()
+    {
+        $sql = "SELECT * FROM user ORDER BY last_name ASC, first_name DESC";
+
+        $qb = QueryBuilder::select('user')
+            ->addOrderBy('last_name', 'ASC')
+            ->addOrderBy('first_name', 'DESC')
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }

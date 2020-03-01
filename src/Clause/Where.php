@@ -58,6 +58,17 @@ trait Where
         return "{$column} " . ($isNotIn === false ? '' : 'NOT ') . "IN (" . ($value instanceof Select ? $value->__toString() : implode(', ', $value)) . ")";
     }
 
+    public function whereExist(string $subQueryTableName, callable $callable)
+    {
+        $queryInstance = QueryBuilder::select($subQueryTableName);
+        $queryInstance = call_user_func_array($callable, [$queryInstance]);
+    }
+
+    private function parseWhereExist()
+    {
+
+    }
+
     public function whereGroup(callable $callable): self
     {
         $this->where("(" . call_user_func_array($callable, [new WhereGroup()])->parseWhere() . ")");
