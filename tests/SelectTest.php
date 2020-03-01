@@ -86,6 +86,22 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testSubQueryColumn()
+    {
+        $sql = "SELECT CONCAT(last_name, ' ', first_name) AS full_name, (SELECT COUNT(*) FROM comment WHERE comment.user_id = user.id) AS comment_count FROM user";
+
+        $qb = QueryBuilder::select('user')
+            ->addColumns("CONCAT(last_name, ' ', first_name) AS full_name")
+            ->addColumnSubQuery('comment_count', 'comment', function ($query){
+                return $query
+                    ->addColumns('COUNT(*)')
+                    ->where('comment.user_id = user.id')
+                ;
+            });
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
 
     public function testSelectRelationColumn()
     {

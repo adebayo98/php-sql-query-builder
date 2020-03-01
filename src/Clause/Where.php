@@ -3,6 +3,7 @@
 namespace Adebayo\QueryBuilder\Clause;
 
 use Adebayo\QueryBuilder\Model\WhereGroup;
+use Adebayo\QueryBuilder\Operation\Select;
 
 
 trait Where
@@ -50,6 +51,15 @@ trait Where
     {
         $this->orWhere("(" . call_user_func_array($callable, [new WhereGroup()])->parseWhere() . ")");
         return $this;
+    }
+
+    public function whereInSubQuery(string $column, callable $callable)
+    {
+    }
+
+    public function orWhereInSubQuery(string $column, callable $callable)
+    {
+        // @todo implement this method
     }
 
     public function parseWhere(): string

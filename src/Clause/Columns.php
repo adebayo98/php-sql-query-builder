@@ -4,6 +4,7 @@
 namespace Adebayo\QueryBuilder\Clause;
 
 use Adebayo\QueryBuilder\Model\RelationColumn;
+use Adebayo\QueryBuilder\QueryBuilder;
 
 
 trait Columns
@@ -18,11 +19,12 @@ trait Columns
         return $this;
     }
 
-    public function addSubQueryField(?string $alias, callable $callable)
+    public function addColumnSubQuery(?string $alias, string $subQueryTableName, callable $callable)
     {
         // @todo Throw exception if $callable not return Select instance
+        $subQuery = call_user_func_array($callable, [QueryBuilder::select($subQueryTableName)]);
         $this->addColumns(
-            "(" . $callable()->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
+            "(" . $subQuery->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
         );
 
         return $this;
@@ -64,7 +66,7 @@ trait Columns
     private function bindRelationColumnToContext(RelationColumn $instance)
     {
         if ($this->isQueryBase()){
-            $this->addSubQueryField($instance->getAlias() ?? $instance->tableName(), function () use ($instance) {
+            $this->addColumnSubQuery($instance->getAlias() ?? $instance->tableName(), $instance->tableName(), function () use ($instance) {
                 return $instance;
             });
         }

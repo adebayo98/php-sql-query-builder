@@ -1,8 +1,6 @@
 <?php
 
 use Adebayo\QueryBuilder\QueryBuilder;
-use Adebayo\QueryBuilder\Model\RelationColumn;
-use Adebayo\QueryBuilder\Model\WhereGroup;
 
 require_once '../vendor/autoload.php';
 
