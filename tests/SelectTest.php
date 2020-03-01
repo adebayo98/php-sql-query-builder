@@ -9,22 +9,56 @@ use Adebayo\QueryBuilder\Model\RelationColumn;
 
 class SelectTest extends TestCase
 {
-    /**
-     * @dataProvider sqlSelectAllFieldsAndLimitRows
-     * @dataProvider sqlSelectCustomColumns
-     * @dataProvider sqlSelectColumnsWithAlias
-     * @dataProvider sqlSelectWithWhereClause
-     * @dataProvider sqlSelectRelationColumn
-     *
-     * @param string $sqlQuery
-     * @param Select $qb
-     */
-    public function testSelectQuery(string $sqlQuery, Select $qb)
+
+    public function testSelectAllFieldsAndLimitRows()
     {
-        $this->assertEquals($sqlQuery, $qb->__toString());
+        $sql = $this->prettify("SELECT * FROM article LIMIT 10");
+
+        $qb = QueryBuilder::select('article')
+            ->limit(10)
+        ;
+        $this->assertEquals($sql, $qb->__toString());
     }
 
-    public function sqlSelectRelationColumn()
+    public function testSelectCustomColumns()
+    {
+        $sql = "SELECT id, content, created_at, updated_at FROM article";
+
+        $qb = QueryBuilder::select('article')
+            ->addColumns('id', 'content', 'created_at', 'updated_at')
+        ;
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
+    public function testSelectColumnsWithAlias()
+    {
+        $sql = "SELECT content AS main_content, created_at AS creation_date FROM article";
+
+        $qb = QueryBuilder::select('article')
+            ->addColumns('content AS main_content', ['created_at' => 'creation_date'])
+        ;
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+
+    }
+
+    public function testSelectWithWhereClause()
+    {
+        $sql = "SELECT * FROM article WHERE id > 1 OR (id > 4 AND id < 8)";
+
+        $qb = QueryBuilder::select('article')
+            ->where('id > 1')
+            ->orWhereGroup(function ($groupWhere){
+                return $groupWhere->where('id > 4')
+                    ->Where('id < 8')
+                    ;
+            });
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
+
+    public function testSelectRelationColumn()
     {
         $addressSql = "(SELECT json_object('country', country, 'city', city, 'street', street) FROM address WHERE address.user_id = user.id LIMIT 1)";
 
@@ -40,75 +74,15 @@ class SelectTest extends TestCase
 
         $qb = QueryBuilder::select('article')
             ->addColumns('id', 'title', 'content')
-            ->addColumnObject('user', 'id', 'user_id', function ($objectColumn){
+            ->addColumnObject('user', 'id', 'user_id', function (RelationColumn $objectColumn){
                 return $objectColumn->setAlias('author')
                     ->addColumns('last_name', 'first_name')
-                    ->addColumnObject('address', 'user_id', 'id', function ($objectColumn){
+                    ->addColumnObject('address', 'user_id', 'id', function (RelationColumn $objectColumn){
                         return $objectColumn->addColumns('country', 'city', 'street');
-                    })
-                ;
-            })
-        ;
-
-        return [
-            [$this->prettify($sql), $qb]
-        ];
-    }
-
-    public function sqlSelectWithWhereClause()
-    {
-        $sql = "SELECT * FROM article WHERE id > 1 OR (id > 4 AND id < 8)";
-
-        $qb = QueryBuilder::select('article')
-            ->where('id > 1')
-            ->orWhereGroup(function ($groupWhere){
-                return $groupWhere->where('id > 4')
-                    ->Where('id < 8')
-                ;
+                    });
             });
 
-        return [
-            [$this->prettify($sql), $qb]
-        ];
-    }
-
-    public function sqlSelectColumnsWithAlias()
-    {
-        $sql = "SELECT content AS main_content, created_at AS creation_date FROM article";
-
-        $qb = QueryBuilder::select('article')
-            ->addColumns('content AS main_content', ['created_at' => 'creation_date'])
-        ;
-
-        return [
-            [$this->prettify($sql), $qb]
-        ];
-    }
-
-    public function sqlSelectCustomColumns()
-    {
-        $sql = "SELECT id, content, created_at, updated_at FROM article";
-
-        $qb = QueryBuilder::select('article')
-            ->addColumns('id', 'content', 'created_at', 'updated_at')
-        ;
-
-        return [
-            [$this->prettify($sql), $qb]
-        ];
-    }
-
-    public function sqlSelectAllFieldsAndLimitRows()
-    {
-        $sql = "SELECT * FROM article LIMIT 10";
-
-        $qb = QueryBuilder::select('article')
-            ->limit(10)
-        ;
-
-        return [
-            [$this->prettify($sql), $qb]
-        ];
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
     private function prettify(string $sql)

@@ -3,21 +3,12 @@
 
 namespace Adebayo\QueryBuilder\Model;
 
-use Adebayo\QueryBuilder\Clause\Distinct;
-use Adebayo\QueryBuilder\Clause\Limit;
-use Adebayo\QueryBuilder\Clause\Where;
-use Adebayo\QueryBuilder\Operation\Common;
-use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Contract\ContextInterface;
+use Adebayo\QueryBuilder\AbstractSelect;
 
 
-class RelationColumn extends Common implements ContextInterface
+class RelationColumn extends AbstractSelect
 {
-    use Distinct;
-    use Columns;
-    use Where;
-    use Limit;
 
     private ?string $alias = null;
 
@@ -26,26 +17,11 @@ class RelationColumn extends Common implements ContextInterface
 
     public function __construct(string $tableName, string $relationType, $options = [])
     {
-        parent::__construct($tableName, $options);
+        parent::__construct($tableName, false, $options);
         $this->relationType = $relationType;
     }
 
-    public function __toString()
-    {
-        $sql = "SELECT {$this->parseColumns()} FROM {$this->tableName()}";
-
-        if (!empty($this->where)){
-            $sql.= " WHERE {$this->parseWhere()}";
-        }
-
-        if ($this->limit !== null){
-            $sql.= " LIMIT {$this->limit}";
-        }
-
-        return $sql;
-    }
-
-    private function parseColumns()
+    public function parseColumns()
     {
         return $this->relationType === 'object' ? $this->parseColumnsObject() : $this->parseColumnsCollection();
     }
@@ -57,17 +33,7 @@ class RelationColumn extends Common implements ContextInterface
 
     private function parseColumnsCollection()
     {
-        return "json_array({$this->parseColumnsObject()})";
-    }
-
-    public function tableName(): string
-    {
-        return parent::getTableName();
-    }
-
-    public function isQueryBase(): bool
-    {
-        return false;
+        return "json_arrayagg({$this->parseColumnsObject()})";
     }
 
     public function getAlias(): ?string

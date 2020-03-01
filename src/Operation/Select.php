@@ -3,26 +3,19 @@
 
 namespace Adebayo\QueryBuilder\Operation;
 
-
+use Adebayo\QueryBuilder\AbstractSelect;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Contract\ContextInterface;
 
 
-class Select extends AbstractSelect implements ContextInterface
+class Select extends AbstractSelect
 {
+    public function __construct(string $tableName, $options = [])
+    {
+        parent::__construct($tableName, true, $options);
+    }
 
-    private function parseColumns(): string
+    public function parseColumns()
     {
         return ColumnParser::stringRow($this->columns);
-    }
-
-    public function tableName(): string
-    {
-        return parent::getTableName();
-    }
-
-    public function isQueryBase(): bool
-    {
-       return true;
     }
 }

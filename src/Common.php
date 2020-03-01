@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Operation;
+namespace Adebayo\QueryBuilder;
 
 
 abstract class Common
@@ -9,6 +9,7 @@ abstract class Common
     protected string $tableName;
 
     protected array $options;
+
 
     public function __construct(string $tableName, $options = [])
     {
