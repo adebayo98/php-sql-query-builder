@@ -4,6 +4,7 @@ namespace Adebayo\QueryBuilder\Clause;
 
 use Adebayo\QueryBuilder\Model\WhereGroup;
 use Adebayo\QueryBuilder\Operation\Select;
+use Adebayo\QueryBuilder\QueryBuilder;
 
 
 trait Where
@@ -20,7 +21,7 @@ trait Where
 
     public function orWhere(string $condition): self
     {
-        $this->where[] =  "OR {$condition}";
+        $this->where[] = (empty($this->where) ? '' : 'OR ')  . $condition;
         return $this;
     }
 
@@ -36,9 +37,25 @@ trait Where
         return $this;
     }
 
-    private function parseWhereIn(string $column, array $values): string
+    public function whereInSubQuery(string $column, string $subQueryTableName, callable $callable): self
     {
-        return "{$column} IN (" . implode(', ', $values) . ")";
+        $queryInstance = QueryBuilder::select($subQueryTableName);
+        $queryInstance = call_user_func_array($callable, [$queryInstance]);
+        $this->where($this->parseWhereIn($column, $queryInstance));
+        return $this;
+    }
+
+    public function orWhereInSubQuery(string $column, string $subQueryTableName, callable $callable): self
+    {
+        $queryInstance = QueryBuilder::select($subQueryTableName);
+        $queryInstance = call_user_func_array($callable, [$queryInstance]);
+        $this->orWhere($this->parseWhereIn($column, $queryInstance));
+        return $this;
+    }
+
+    private function parseWhereIn(string $column, $value): string
+    {
+        return "{$column} IN (" . ($value instanceof Select ? $value->__toString() : implode(', ', $value)) . ")";
     }
 
     public function whereGroup(callable $callable): self
@@ -51,15 +68,6 @@ trait Where
     {
         $this->orWhere("(" . call_user_func_array($callable, [new WhereGroup()])->parseWhere() . ")");
         return $this;
-    }
-
-    public function whereInSubQuery(string $column, callable $callable)
-    {
-    }
-
-    public function orWhereInSubQuery(string $column, callable $callable)
-    {
-        // @todo implement this method
     }
 
     public function parseWhere(): string

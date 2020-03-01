@@ -8,6 +8,16 @@ ini_set('display_errors', 1);
 
 echo "<pre>";
 
+$qb = QueryBuilder::select('article')
+    ->whereInSubQuery('user_id', 'user', function (\Adebayo\QueryBuilder\Operation\Select $query){
+        return $query->addColumns('id')
+            ->where('is_active = 1')
+            ;
+    });
+
+die($qb->__toString());
+
+
 $dsn = 'mysql:dbname=php-sql-query-builder;host=62.210.16.27;port=6069';
 $user = 'read-only';
 $password = 'read-only-user';

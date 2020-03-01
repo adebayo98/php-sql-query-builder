@@ -86,6 +86,19 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testWhereInSubQuery()
+    {
+        $sql = "SELECT * FROM article WHERE user_id IN (SELECT id FROM user WHERE is_active = 1)";
+
+        $qb = QueryBuilder::select('article')
+            ->whereInSubQuery('user_id', 'user', function (\Adebayo\QueryBuilder\Operation\Select $query){
+                return $query->addColumns('id')
+                    ->where('is_active = 1')
+                ;
+            });
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     public function testSubQueryColumn()
     {
         $sql = "SELECT CONCAT(last_name, ' ', first_name) AS full_name, (SELECT COUNT(*) FROM comment WHERE comment.user_id = user.id) AS comment_count FROM user";
@@ -101,7 +114,6 @@ class SelectTest extends TestCase
 
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
-
 
     public function testSelectRelationColumn()
     {

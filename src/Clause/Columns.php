@@ -19,19 +19,19 @@ trait Columns
         return $this;
     }
 
-    public function addColumnSubQuery(?string $alias, string $subQueryTableName, callable $callable)
+    public function addColumnSubQuery(?string $columnAlias, string $subQueryTableName, callable $callable)
     {
         // @todo Throw exception if $callable not return Select instance
         $subQuery = call_user_func_array($callable, [QueryBuilder::select($subQueryTableName)]);
 
         if ($this->isQueryBase()){
             $this->addColumns(
-                "(" . $subQuery->__toString() . ")" . ($alias === null ? '' : " AS {$alias}")
+                "(" . $subQuery->__toString() . ")" . ($columnAlias === null ? '' : " AS {$columnAlias}")
             );
         }
 
         if (!$this->isQueryBase()){
-            $this->addColumns(["(" . $subQuery->__toString() . ")" => $alias]);
+            $this->addColumns(["(" . $subQuery->__toString() . ")" => $columnAlias]);
         }
 
         return $this;
