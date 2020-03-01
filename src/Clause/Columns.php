@@ -73,16 +73,9 @@ trait Columns
     private function bindRelationColumnToContext(RelationColumn $instance)
     {
         if ($this->isQueryBase()){
-            $this->addColumnSubQuery($instance->getAlias() ?? $instance->tableName(), $instance->tableName(), function () use ($instance) {
-                return $instance;
-            });
-
-            if ($this->isQueryBase()){
-                $this->addColumns(
-                    "(" . $instance->__toString() . ")" . (" AS " . $instance->getAlias() ?? $instance->tableName())
-                );
-            }
-
+            $this->addColumns(
+                "(" . $instance->__toString() . ")" . (" AS " . $instance->getAlias() ?? $instance->tableName())
+            );
         }
 
         if (!$this->isQueryBase()){
