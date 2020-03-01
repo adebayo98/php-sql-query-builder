@@ -7,21 +7,23 @@ use Adebayo\QueryBuilder\Clause\Cache;
 use Adebayo\QueryBuilder\Clause\Columns;
 use Adebayo\QueryBuilder\Clause\Distinct;
 use Adebayo\QueryBuilder\Clause\GroupBy;
+use Adebayo\QueryBuilder\Clause\Having;
 use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
-use Adebayo\QueryBuilder\Contract\ContextInterface;
+use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Model\SGBD;
 
 
-abstract class AbstractSelect extends Common implements ContextInterface
+abstract class AbstractSelect extends Common implements SelectContextInterface
 {
     use Cache;
     use Distinct;
     use Columns;
     use Join;
     use Where;
+    use Having;
     use GroupBy;
     use Limit;
 

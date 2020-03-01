@@ -4,7 +4,7 @@
 namespace Adebayo\QueryBuilder\Contract;
 
 
-interface ContextInterface
+interface SelectContextInterface
 {
     /**
      * Get the current query context table name.
