@@ -3,18 +3,21 @@
 
 namespace Adebayo\QueryBuilder;
 
+use Adebayo\QueryBuilder\Model\SGBD;
+
 
 abstract class Common
 {
+
     protected string $tableName;
 
-    protected array $options;
+    protected string $sgbd;
 
 
     public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->options = $options;
+        $this->sgbd = $options['sgbd'] ?? SGBD::MYSQL;
     }
 
     public function getTableName(): string
@@ -22,8 +25,12 @@ abstract class Common
         return $this->tableName;
     }
 
+    /**
+     * @todo Throw new exception if this method is not overloaded in child class ?
+     * @return string
+     */
     public function __toString()
     {
-        // Overloaded this method in the child class.
+        return "Overloaded this method in the " . self::class;
     }
 }

@@ -9,6 +9,7 @@ use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\ContextInterface;
+use Adebayo\QueryBuilder\Model\SGBD;
 
 
 abstract class AbstractSelect extends Common implements ContextInterface
@@ -30,7 +31,7 @@ abstract class AbstractSelect extends Common implements ContextInterface
 
     public function __toString()
     {
-        $sql = "SELECT " . ($this->isDistinct() ? ' DISTINCT ' : '') . $this->parseColumns() . " FROM {$this->tableName}";
+        $sql = "SELECT " . ($this->isDistinct() ? "{$this->parseDistinct()} " : '') . $this->parseColumns() . " FROM {$this->tableName}";
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
@@ -41,6 +42,11 @@ abstract class AbstractSelect extends Common implements ContextInterface
         }
 
         return $sql;
+    }
+
+    private function parseDistinct()
+    {
+        return $this->sgbd === SGBD::ORACLE ? 'UNIQUE' : 'DISTINCT';
     }
 
     public function tableName(): string

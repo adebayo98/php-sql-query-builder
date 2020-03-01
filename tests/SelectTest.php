@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 
 use Adebayo\QueryBuilder\QueryBuilder;
-use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\Model\RelationColumn;
 
 
@@ -18,6 +17,17 @@ class SelectTest extends TestCase
             ->limit(10)
         ;
         $this->assertEquals($sql, $qb->__toString());
+    }
+
+    public function testSelectDistinct()
+    {
+        $sql = "SELECT DISTINCT last_name FROM user";
+
+        $qb = QueryBuilder::select('user')
+            ->addColumns('last_name')
+            ->distinct()
+        ;
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
     public function testSelectCustomColumns()
@@ -37,9 +47,7 @@ class SelectTest extends TestCase
         $qb = QueryBuilder::select('article')
             ->addColumns('content AS main_content', ['created_at' => 'creation_date'])
         ;
-
         $this->assertEquals($this->prettify($sql), $qb->__toString());
-
     }
 
     public function testSelectWithWhereClause()
@@ -53,7 +61,6 @@ class SelectTest extends TestCase
                     ->Where('id < 8')
                     ;
             });
-
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
