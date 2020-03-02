@@ -4,6 +4,14 @@
 namespace Adebayo\QueryBuilder\Model;
 
 
+/**
+ * Class CaseClause
+ * @package Adebayo\QueryBuilder\Model
+ *
+ * @see https://sql.sh/cours/case
+ * @version 1.0
+ * @since 1.0
+ */
 class CaseClause
 {
 
