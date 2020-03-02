@@ -3,6 +3,7 @@
 
 namespace Adebayo\QueryBuilder\Clause;
 
+use Adebayo\QueryBuilder\Model\CaseClause;
 use Adebayo\QueryBuilder\Model\RelationColumn;
 use Adebayo\QueryBuilder\QueryBuilder;
 
@@ -34,6 +35,13 @@ trait Columns
             $this->addColumns(["(" . $subQuery->__toString() . ")" => $columnAlias]);
         }
 
+        return $this;
+    }
+
+    public function addColumnCase(string $alias, callable $callable): self
+    {
+        $caseClause = call_user_func_array($callable, [new CaseClause()]);
+        $this->addColumns([$caseClause->__toString() => $alias]);
         return $this;
     }
 
