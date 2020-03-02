@@ -1,13 +1,12 @@
 {
-    "name": "hountondjiadebayo/php-query-builder",
+    "name": "adebayo/php-query-builder",
     "description": "Php pdo query builder",
     "type": "library",
     "license": "WTFPL",
     "keywords": ["php", "pdo", "mysql", "query builder"],
     "authors": [
         {
-            "name": "adebayo98",
-            "email": "hountondjigodwill@gmail.com",
+            "name": "Adebayo",
             "role": "Developer"
         }
     ],
