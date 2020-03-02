@@ -4,6 +4,7 @@
     "type": "library",
     "license": "WTFPL",
     "keywords": ["php", "pdo", "mysql", "query builder"],
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Adebayo",
