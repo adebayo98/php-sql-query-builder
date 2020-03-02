@@ -8,6 +8,7 @@ use Adebayo\QueryBuilder\Clause\Column;
 use Adebayo\QueryBuilder\Clause\Distinct;
 use Adebayo\QueryBuilder\Clause\GroupBy;
 use Adebayo\QueryBuilder\Clause\Having;
+use Adebayo\QueryBuilder\Clause\Intersect;
 use Adebayo\QueryBuilder\Clause\Join;
 use Adebayo\QueryBuilder\Clause\Limit;
 use Adebayo\QueryBuilder\Clause\Offset;
@@ -32,6 +33,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     use Offset;
     use OrderBy;
     use Union;
+    use Intersect;
 
 
     private bool $isBaseQuery;
@@ -67,6 +69,15 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
         if (!empty($this->orderBy)){
             $sql.= " ORDER BY {$this->parseOrderBy()}";
+        }
+
+        if ($this->intersect !== null){
+
+            if ($this->sgbd === SGBD::MYSQL){
+                // @todo throw new exception
+            }
+
+            $sql.= " INTERSECT {$this->intersect}";
         }
 
         if (!empty($this->union)){
