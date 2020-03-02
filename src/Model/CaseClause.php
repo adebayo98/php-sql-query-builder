@@ -36,9 +36,9 @@ class CaseClause
         return $this->when;
     }
 
-    public function else(string $condition)
+    public function else(string $defaultValue)
     {
-        $this->else = $condition;
+        $this->else = $defaultValue;
         return $this;
     }
 

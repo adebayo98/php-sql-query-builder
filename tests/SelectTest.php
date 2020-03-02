@@ -71,6 +71,30 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testCaseClause()
+    {
+        $sql = "
+            SELECT id, last_name,
+            CASE
+                WHEN age > 18 THEN 'major'
+                WHEN age > 21 THEN 'adult'
+                ELSE 'minor'
+            END AS status
+            FROM user
+        ";
+
+        $qb = QueryBuilder::select('user')
+            ->addColumns('id', 'last_name')
+            ->addColumnCase('status', function ($case){
+                return $case->addWhen('age > 18', 'major')
+                    ->addWhen('age > 21', 'adult')
+                    ->else('minor')
+                ;
+            });
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     public function testSelectWithWhereClause()
     {
         $sql = "SELECT * FROM article WHERE tag_id IS NOT NULL OR (id > 4 AND id < 8) AND user_id IN (1, 2)";
