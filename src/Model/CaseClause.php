@@ -25,9 +25,9 @@ class CaseClause
         return "CASE {$this->parseWhen()}" . ($this->else === null ? '' : " ELSE '{$this->else}'") . " END" ;
     }
 
-    public function addWhen(string $condition, string $value): self
+    public function addWhen(string $condition, string $value, bool $valueIsColumn = false): self
     {
-        $this->when[] = "WHEN {$condition} THEN '{$value}'";
+        $this->when[] = "WHEN {$condition} THEN " . ($valueIsColumn ? "{$value}" : "'{$value}'");
         return $this;
     }
 
