@@ -45,7 +45,7 @@ class SelectTest extends TestCase
         $sql = "SELECT DISTINCT last_name FROM user";
 
         $qb = QueryBuilder::select('user')
-            ->addColumns('last_name')
+            ->addColumn('last_name')
             ->distinct()
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -56,7 +56,7 @@ class SelectTest extends TestCase
         $sql = "SELECT id, content, created_at, updated_at FROM article";
 
         $qb = QueryBuilder::select('article')
-            ->addColumns('id', 'content', 'created_at', 'updated_at')
+            ->addColumn('id', 'content', 'created_at', 'updated_at')
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
@@ -66,7 +66,7 @@ class SelectTest extends TestCase
         $sql = "SELECT content AS main_content, created_at AS creation_date FROM article";
 
         $qb = QueryBuilder::select('article')
-            ->addColumns('content AS main_content', ['created_at' => 'creation_date'])
+            ->addColumn('content AS main_content', ['created_at' => 'creation_date'])
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
@@ -84,7 +84,7 @@ class SelectTest extends TestCase
         ";
 
         $qb = QueryBuilder::select('user')
-            ->addColumns('id', 'last_name')
+            ->addColumn('id', 'last_name')
             ->addColumnCase('status', function ($case){
                 return $case->addWhen('age > 18', 'major')
                     ->addWhen('age > 21', 'adult')
@@ -117,7 +117,7 @@ class SelectTest extends TestCase
         $sql = " SELECT client, SUM(tarif) FROM achat GROUP BY client HAVING SUM(tarif) > 40";
 
         $qb = QueryBuilder::select('achat')
-            ->addColumns('client', 'SUM(tarif)')
+            ->addColumn('client', 'SUM(tarif)')
             ->groupBy('client')
             ->having('SUM(tarif) > 40')
         ;
@@ -142,7 +142,7 @@ class SelectTest extends TestCase
         $sql = "SELECT CONCAT(last_name, ' ', first_name) AS full_name, (SELECT COUNT(*) FROM comment WHERE comment.user_id = user.id) AS comment_count FROM user";
 
         $qb = QueryBuilder::select('user')
-            ->addColumns("CONCAT(last_name, ' ', first_name) AS full_name")
+            ->addColumn("CONCAT(last_name, ' ', first_name) AS full_name")
             ->addColumnSubQuery('comment_count', 'comment', function ($query){
                 return $query
                     ->addColumns('COUNT(*)')
@@ -158,7 +158,7 @@ class SelectTest extends TestCase
         $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id WITH ROLLUP";
 
         $qb = QueryBuilder::select('comment')
-            ->addColumns('user_id', 'COUNT(*) AS total_comment')
+            ->addColumn('user_id', 'COUNT(*) AS total_comment')
             ->groupBy('user_id', true)
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -190,12 +190,12 @@ class SelectTest extends TestCase
         ";
 
         $qb = QueryBuilder::select('article')
-            ->addColumns('id', 'title', 'content')
+            ->addColumn('id', 'title', 'content')
             ->addColumnObject('user', 'id', 'user_id', function (RelationColumn $objectColumn){
                 return $objectColumn->setAlias('author')
-                    ->addColumns('last_name', 'first_name')
+                    ->addColumn('last_name', 'first_name')
                     ->addColumnObject('address', 'user_id', 'id', function (RelationColumn $objectColumn){
-                        return $objectColumn->addColumns('country', 'city', 'street');
+                        return $objectColumn->addColumn('country', 'city', 'street');
                     });
             });
 

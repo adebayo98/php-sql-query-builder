@@ -4,7 +4,7 @@
 namespace Adebayo\QueryBuilder;
 
 use Adebayo\QueryBuilder\Clause\Cache;
-use Adebayo\QueryBuilder\Clause\Columns;
+use Adebayo\QueryBuilder\Clause\Column;
 use Adebayo\QueryBuilder\Clause\Distinct;
 use Adebayo\QueryBuilder\Clause\GroupBy;
 use Adebayo\QueryBuilder\Clause\Having;
@@ -23,7 +23,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 {
     use Cache;
     use Distinct;
-    use Columns;
+    use Column;
     use Join;
     use Where;
     use GroupBy;

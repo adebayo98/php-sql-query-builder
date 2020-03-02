@@ -8,13 +8,13 @@ use Adebayo\QueryBuilder\Model\RelationColumn;
 use Adebayo\QueryBuilder\QueryBuilder;
 
 
-trait Columns
+trait Column
 {
 
     protected array $columns = [];
 
 
-    public function addColumns(...$fields)
+    public function addColumn(...$fields)
     {
         $this->columns = [...$this->columns, ...$fields];
         return $this;
@@ -26,13 +26,13 @@ trait Columns
         $subQuery = call_user_func_array($callable, [QueryBuilder::select($subQueryTableName)]);
 
         if ($this->isQueryBase()){
-            $this->addColumns(
+            $this->addColumn(
                 "(" . $subQuery->__toString() . ")" . ($columnAlias === null ? '' : " AS {$columnAlias}")
             );
         }
 
         if (!$this->isQueryBase()){
-            $this->addColumns(["(" . $subQuery->__toString() . ")" => $columnAlias]);
+            $this->addColumn(["(" . $subQuery->__toString() . ")" => $columnAlias]);
         }
 
         return $this;
@@ -41,7 +41,7 @@ trait Columns
     public function addColumnCase(string $alias, callable $callable): self
     {
         $caseClause = call_user_func_array($callable, [new CaseClause()]);
-        $this->addColumns([$caseClause->__toString() => $alias]);
+        $this->addColumn([$caseClause->__toString() => $alias]);
         return $this;
     }
 
@@ -79,13 +79,13 @@ trait Columns
     private function bindRelationColumnToContext(RelationColumn $instance)
     {
         if ($this->isQueryBase()){
-            $this->addColumns(
+            $this->addColumn(
                 "(" . $instance->__toString() . ")" . (" AS " . $instance->getAlias() ?? $instance->tableName())
             );
         }
 
         if (!$this->isQueryBase()){
-            $this->addColumns(
+            $this->addColumn(
                 ["(" . $instance->__toString() . ")" => $instance->getAlias() ?? $instance->tableName()]
             );
         }

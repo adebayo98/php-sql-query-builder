@@ -19,7 +19,7 @@ try {
 }
 
 $qb = QueryBuilder::select('article')
-    ->addColumns('id', 'title', 'content')
+    ->addColumn('id', 'title', 'content')
     ->addColumnObject('user', 'id', 'user_id', function ($objectColumn){
         return $objectColumn->setAlias('author')
             ->addColumns('last_name', 'first_name')
