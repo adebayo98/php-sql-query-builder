@@ -17,7 +17,7 @@ use Adebayo\QueryBuilder\Clause\Union;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Model\SGBD;
+use Adebayo\QueryBuilder\Model\Driver;
 
 
 abstract class AbstractSelect extends Common implements SelectContextInterface
@@ -73,7 +73,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
         if ($this->intersect !== null){
 
-            if ($this->sgbd === SGBD::MYSQL){
+            if ($this->sgbd === Driver::MYSQL){
                 // @todo throw new exception
             }
 
@@ -89,7 +89,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     private function parseDistinct()
     {
-        return $this->sgbd === SGBD::ORACLE ? ' UNIQUE' : ' DISTINCT';
+        return $this->sgbd === Driver::ORACLE ? ' UNIQUE' : ' DISTINCT';
     }
 
     public function parseColumns()

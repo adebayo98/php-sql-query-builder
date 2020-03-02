@@ -3,7 +3,7 @@
 
 namespace Adebayo\QueryBuilder;
 
-use Adebayo\QueryBuilder\Model\SGBD;
+use Adebayo\QueryBuilder\Model\Driver;
 
 
 abstract class Common
@@ -17,7 +17,7 @@ abstract class Common
     public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->sgbd = $options['sgbd'] ?? SGBD::MYSQL;
+        $this->sgbd = $options['sgbd'] ?? Driver::MYSQL;
     }
 
     public function getTableName(): string
