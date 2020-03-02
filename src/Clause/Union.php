@@ -16,7 +16,7 @@ trait Union
     {
         $queryInstance = QueryBuilder::select($tableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
-        $this->union[] = (empty($this->union) ? '' : 'UNION') . $queryInstance->__toString();
+        $this->union[] = 'UNION ' . $queryInstance->__toString();
         return $this;
     }
 
