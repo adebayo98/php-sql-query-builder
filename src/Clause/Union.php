@@ -12,15 +12,17 @@ trait Union
     private array $union = [];
 
 
-    public function addUnion(string $tableName, callable $callable): self
+    public function addUnion(string $tableName, callable $callable = null): self
     {
         $queryInstance = QueryBuilder::select($tableName);
-        $queryInstance = call_user_func_array($callable, [$queryInstance]);
+        if ($callable !== null){
+            $queryInstance = call_user_func_array($callable, [$queryInstance]);
+        }
         $this->union[] = 'UNION ' . $queryInstance->__toString();
         return $this;
     }
 
-    private function parseUnion()
+    private function parseUnion(): string
     {
         return implode(' ', $this->union);
     }

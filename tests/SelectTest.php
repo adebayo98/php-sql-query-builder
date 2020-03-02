@@ -158,9 +158,7 @@ class SelectTest extends TestCase
         $sql = "SELECT * FROM article_fr UNION SELECT * FROM article_en";
 
         $qb = QueryBuilder::select('article_fr')
-            ->addUnion('article_en', function ($query){
-                return $query;
-            });
+            ->addUnion('article_en');
 
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
