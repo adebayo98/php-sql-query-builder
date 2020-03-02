@@ -39,7 +39,8 @@ trait Where
 
     public function whereInSubQuery(string $column, string $subQueryTableName, callable $callable, bool $isNotIn = false): self
     {
-        $queryInstance = QueryBuilder::select($subQueryTableName);
+        // @todo Add options in qb constructor
+        $queryInstance = (new QueryBuilder())->select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
         $this->where($this->parseWhereIn($column, $queryInstance, $isNotIn));
         return $this;
@@ -47,7 +48,7 @@ trait Where
 
     public function orWhereInSubQuery(string $column, string $subQueryTableName, callable $callable, bool $isNotIn = false): self
     {
-        $queryInstance = QueryBuilder::select($subQueryTableName);
+        $queryInstance = (new QueryBuilder())->select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
         $this->orWhere($this->parseWhereIn($column, $queryInstance, $isNotIn));
         return $this;
@@ -60,7 +61,7 @@ trait Where
 
     public function whereExist(string $subQueryTableName, callable $callable)
     {
-        $queryInstance = QueryBuilder::select($subQueryTableName);
+        $queryInstance = (new QueryBuilder())->select($subQueryTableName);
         $queryInstance = call_user_func_array($callable, [$queryInstance]);
         // @todo finished this
     }

@@ -18,7 +18,7 @@ try {
     die('Connexion échouée : ' . $e->getMessage());
 }
 
-$qb = QueryBuilder::select('article')
+$qb = (new QueryBuilder())->select('article')
     ->addColumn('id', 'title', 'content')
     ->addColumnObject('user', 'id', 'user_id', function ($objectColumn){
         return $objectColumn->setAlias('author')

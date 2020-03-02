@@ -13,7 +13,7 @@ trait Intersect
 
     public function intersect(string $tableName, callable $callable = null): self
     {
-        $queryInstance = QueryBuilder::select($tableName);
+        $queryInstance = (new QueryBuilder())->select($tableName);
 
         if ($callable !== null){
             $queryInstance = call_user_func_array($callable, [$queryInstance]);

@@ -23,7 +23,7 @@ trait Column
     public function addColumnSubQuery(?string $columnAlias, string $subQueryTableName, callable $callable)
     {
         // @todo Throw exception if $callable not return Select instance
-        $subQuery = call_user_func_array($callable, [QueryBuilder::select($subQueryTableName)]);
+        $subQuery = call_user_func_array($callable, [(new QueryBuilder())->select($subQueryTableName)]);
 
         if ($this->isQueryBase()){
             $this->addColumn(

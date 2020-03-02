@@ -9,22 +9,30 @@ use Adebayo\QueryBuilder\Operation\Select;
 class QueryBuilder
 {
 
-    public static function select(string $tableName)
+    private array $options;
+
+
+    public function __construct($options = [])
     {
-        return new Select($tableName);
+        $this->options = $options;
     }
 
-    public static function insert(string $tableName)
+    public function select(string $tableName)
+    {
+        return new Select($tableName, $this->options);
+    }
+
+    public function insert(string $tableName)
     {
 
     }
 
-    public static function update(string $tableName)
+    public function update(string $tableName)
     {
 
     }
 
-    public static function delete(string $tableName)
+    public function delete(string $tableName)
     {
 
     }

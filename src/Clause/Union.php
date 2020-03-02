@@ -14,7 +14,7 @@ trait Union
 
     public function addUnion(string $tableName, callable $callable = null): self
     {
-        $queryInstance = QueryBuilder::select($tableName);
+        $queryInstance = (new QueryBuilder())->select($tableName);
         if ($callable !== null){
             $queryInstance = call_user_func_array($callable, [$queryInstance]);
         }
@@ -24,7 +24,7 @@ trait Union
 
     public function addUnionAll(string $tableName, callable $callable = null): self
     {
-        $queryInstance = QueryBuilder::select($tableName);
+        $queryInstance = (new QueryBuilder())->select($tableName);
         if ($callable !== null){
             $queryInstance = call_user_func_array($callable, [$queryInstance]);
         }

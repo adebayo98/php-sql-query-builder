@@ -13,7 +13,8 @@ class SelectTest extends TestCase
     {
         $sql = $this->prettify("SELECT * FROM article LIMIT 10 OFFSET 3");
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->limit(10)
             ->offset(3)
         ;
@@ -24,7 +25,8 @@ class SelectTest extends TestCase
     {
         $sql = $this->prettify("SELECT SQL_CACHE * FROM article");
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->sqlCache()
         ;
         $this->assertEquals($sql, $qb->__toString());
@@ -34,7 +36,8 @@ class SelectTest extends TestCase
     {
         $sql = $this->prettify("SELECT SQL_NO_CACHE * FROM article");
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->sqlNoCache()
         ;
         $this->assertEquals($sql, $qb->__toString());
@@ -44,7 +47,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT DISTINCT last_name FROM user";
 
-        $qb = QueryBuilder::select('user')
+        $qb = (new QueryBuilder())
+            ->select('user')
             ->addColumn('last_name')
             ->distinct()
         ;
@@ -55,7 +59,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT id, content, created_at, updated_at FROM article";
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->addColumn('id', 'content', 'created_at', 'updated_at')
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -65,7 +70,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT content AS main_content, created_at AS creation_date FROM article";
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->addColumn('content AS main_content', ['created_at' => 'creation_date'])
         ;
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -83,7 +89,8 @@ class SelectTest extends TestCase
             FROM user
         ";
 
-        $qb = QueryBuilder::select('user')
+        $qb = (new QueryBuilder())
+            ->select('user')
             ->addColumn('id', 'last_name')
             ->addColumnCase('status', function ($case){
                 return $case->addWhen('age > 18', 'major')
@@ -99,7 +106,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT * FROM article WHERE tag_id IS NOT NULL OR (id > 4 AND id < 8) AND user_id IN (1, 2)";
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->where('tag_id IS NOT NULL')
             ->orWhereGroup(function ($groupWhere){
                 return $groupWhere->where('id > 4')
@@ -116,7 +124,8 @@ class SelectTest extends TestCase
 
         $sql = " SELECT client, SUM(tarif) FROM achat GROUP BY client HAVING SUM(tarif) > 40";
 
-        $qb = QueryBuilder::select('achat')
+        $qb = (new QueryBuilder())
+            ->select('achat')
             ->addColumn('client', 'SUM(tarif)')
             ->groupBy('client')
             ->having('SUM(tarif) > 40')
@@ -128,7 +137,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT * FROM article WHERE user_id IN (SELECT id FROM user WHERE is_active = 1)";
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->whereInSubQuery('user_id', 'user', function ($query){
                 return $query->addColumn('id')
                     ->where('is_active = 1')
@@ -141,7 +151,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT CONCAT(last_name, ' ', first_name) AS full_name, (SELECT COUNT(*) FROM comment WHERE comment.user_id = user.id) AS comment_count FROM user";
 
-        $qb = QueryBuilder::select('user')
+        $qb = (new QueryBuilder())
+            ->select('user')
             ->addColumn("CONCAT(last_name, ' ', first_name) AS full_name")
             ->addColumnSubQuery('comment_count', 'comment', function ($query){
                 return $query
@@ -157,7 +168,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT * FROM article_fr UNION SELECT * FROM article_en";
 
-        $qb = QueryBuilder::select('article_fr')
+        $qb = (new QueryBuilder())
+            ->select('article_fr')
             ->addUnion('article_en');
 
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -167,7 +179,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT * FROM article_fr UNION ALL SELECT * FROM article_en";
 
-        $qb = QueryBuilder::select('article_fr')
+        $qb = (new QueryBuilder())
+            ->select('article_fr')
             ->addUnionAll('article_en');
 
         $this->assertEquals($this->prettify($sql), $qb->__toString());
@@ -177,7 +190,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id WITH ROLLUP";
 
-        $qb = QueryBuilder::select('comment')
+        $qb = (new QueryBuilder())
+            ->select('comment')
             ->addColumn('user_id', 'COUNT(*) AS total_comment')
             ->groupBy('user_id', true)
         ;
@@ -188,7 +202,8 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT * FROM user ORDER BY last_name DESC, first_name ASC";
 
-        $qb = QueryBuilder::select('user')
+        $qb = (new QueryBuilder())
+            ->select('user')
             ->addOrderBy('last_name', 'DESC')
             ->addOrderBy('first_name', 'ASC')
         ;
@@ -209,7 +224,8 @@ class SelectTest extends TestCase
             article
         ";
 
-        $qb = QueryBuilder::select('article')
+        $qb = (new QueryBuilder())
+            ->select('article')
             ->addColumn('id', 'title', 'content')
             ->addColumnObject('user', 'id', 'user_id', function (RelationColumn $objectColumn){
                 return $objectColumn->setAlias('author')
