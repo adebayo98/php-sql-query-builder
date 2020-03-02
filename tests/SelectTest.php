@@ -130,7 +130,7 @@ class SelectTest extends TestCase
 
         $qb = QueryBuilder::select('article')
             ->whereInSubQuery('user_id', 'user', function ($query){
-                return $query->addColumns('id')
+                return $query->addColumn('id')
                     ->where('is_active = 1')
                 ;
             });
@@ -145,7 +145,7 @@ class SelectTest extends TestCase
             ->addColumn("CONCAT(last_name, ' ', first_name) AS full_name")
             ->addColumnSubQuery('comment_count', 'comment', function ($query){
                 return $query
-                    ->addColumns('COUNT(*)')
+                    ->addColumn('COUNT(*)')
                     ->where('comment.user_id = user.id')
                 ;
             });
