@@ -153,6 +153,18 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testUnion()
+    {
+        $sql = "SELECT * FROM article_fr UNION SELECT * FROM article_en";
+
+        $qb = QueryBuilder::select('article_fr')
+            ->addUnion('article_en', function ($query){
+                return $query;
+            });
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     public function testGroupBy()
     {
         $sql = "SELECT user_id, COUNT(*) AS total_comment FROM comment GROUP BY user_id WITH ROLLUP";

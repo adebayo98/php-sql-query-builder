@@ -70,7 +70,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
         }
 
         if (!empty($this->union)){
-
+            $sql.= " {$this->parseUnion()}";
         }
 
         return $sql;
