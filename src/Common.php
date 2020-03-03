@@ -11,13 +11,13 @@ abstract class Common
 
     protected string $tableName;
 
-    protected string $sgbd;
+    protected string $driver;
 
 
     public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->sgbd = $options['sgbd'] ?? Driver::MYSQL;
+        $this->driver = $options['driver'] ?? Driver::MYSQL;
     }
 
     public function getTableName(): string

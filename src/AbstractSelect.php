@@ -73,7 +73,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
         if ($this->intersect !== null){
 
-            if ($this->sgbd === Driver::MYSQL){
+            if ($this->driver === Driver::MYSQL){
                 // @todo throw new exception
             }
 
@@ -89,7 +89,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     private function parseDistinct()
     {
-        return $this->sgbd === Driver::ORACLE ? ' UNIQUE' : ' DISTINCT';
+        return $this->driver === Driver::ORACLE ? ' UNIQUE' : ' DISTINCT';
     }
 
     public function parseColumns()
