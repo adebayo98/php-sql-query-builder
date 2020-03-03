@@ -74,7 +74,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
         if ($this->intersect !== null){
 
             if ($this->driver === Driver::MYSQL){
-                // @todo throw new exception
+                throw new \Exception('INTERSECT is not available on mysql but you can use whereInSubquery to work around this problem.');
             }
 
             $sql.= " INTERSECT {$this->intersect}";

@@ -239,6 +239,20 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
+    public function testIntersect()
+    {
+        $sql = "SELECT last_name FROM man INTERSECT SELECT last_name FROM woman";
+
+        $qb = (new QueryBuilder())
+            ->select('man')
+            ->addColumn('last_name')
+            ->intersect('woman', function ($query){
+                return $query->addColumn('last_name');
+            });
+
+        $this->assertEquals($this->prettify($sql), $qb->__toString());
+    }
+
     private function prettify(string $sql)
     {
         $sql = str_replace("\n", " ", $sql);
