@@ -9,7 +9,14 @@ use Adebayo\QueryBuilder\Model\RelationColumn;
 class SelectTest extends TestCase
 {
 
-    public function testSelectAllFieldsAndLimitRowsAnfOffset()
+    public function testSelectAll()
+    {
+        $sql = $this->prettify("SELECT * FROM article");
+        $qb = (new QueryBuilder())->select('article');
+        $this->assertEquals($sql, $qb->__toString());
+    }
+
+    public function testLimitAndOffset()
     {
         $sql = $this->prettify("SELECT * FROM article LIMIT 10 OFFSET 3");
 
@@ -21,18 +28,14 @@ class SelectTest extends TestCase
         $this->assertEquals($sql, $qb->__toString());
     }
 
-    public function testSelectWithSqCache()
+    public function testSqlCache()
     {
         $sql = $this->prettify("SELECT SQL_CACHE * FROM article");
-
-        $qb = (new QueryBuilder())
-            ->select('article')
-            ->sqlCache()
-        ;
+        $qb = (new QueryBuilder())->select('article')->sqlCache();
         $this->assertEquals($sql, $qb->__toString());
     }
 
-    public function testSelectWithSqlNoCache()
+    public function testSqlNoCache()
     {
         $sql = $this->prettify("SELECT SQL_NO_CACHE * FROM article");
 
@@ -43,7 +46,7 @@ class SelectTest extends TestCase
         $this->assertEquals($sql, $qb->__toString());
     }
 
-    public function testSelectDistinct()
+    public function testDistinct()
     {
         $sql = "SELECT DISTINCT last_name FROM user";
 
@@ -55,7 +58,7 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
-    public function testSelectCustomColumns()
+    public function testColumns()
     {
         $sql = "SELECT id, content, created_at, updated_at FROM article";
 
@@ -66,7 +69,7 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
-    public function testSelectColumnsWithAlias()
+    public function testColumnsAlias()
     {
         $sql = "SELECT content AS main_content, created_at AS creation_date FROM article";
 
@@ -102,7 +105,7 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
-    public function testSelectWithWhereClause()
+    public function testWhere()
     {
         $sql = "SELECT * FROM article WHERE tag_id IS NOT NULL OR (id > 4 AND id < 8) AND user_id IN (1, 2)";
 
@@ -119,7 +122,7 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
-    public function testHavingClause()
+    public function testHaving()
     {
 
         $sql = " SELECT client, SUM(tarif) FROM achat GROUP BY client HAVING SUM(tarif) > 40";
@@ -140,14 +143,12 @@ class SelectTest extends TestCase
         $qb = (new QueryBuilder())
             ->select('article')
             ->whereInSubQuery('user_id', 'user', function ($query){
-                return $query->addColumn('id')
-                    ->where('is_active = 1')
-                ;
+                return $query->addColumn('id')->where('is_active = 1');
             });
         $this->assertEquals($this->prettify($sql), $qb->__toString());
     }
 
-    public function testSubQueryColumn()
+    public function testColumnSubQuery()
     {
         $sql = "SELECT CONCAT(last_name, ' ', first_name) AS full_name, (SELECT COUNT(*) FROM comment WHERE comment.user_id = user.id) AS comment_count FROM user";
 

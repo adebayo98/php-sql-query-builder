@@ -47,7 +47,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     public function __toString()
     {
-        $distinct = $this->isDistinct() ? $this->parseDistinct() : '';
+        $distinct = $this->distinct ? $this->parseDistinct() : '';
 
         $sql = "SELECT{$this->parseSqlCache()}{$distinct} {$this->parseColumns()}" . " FROM {$this->tableName}";
 

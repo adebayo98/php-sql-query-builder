@@ -40,11 +40,6 @@ class Database
         $this->charset = $options['charset'] ?? 'utf8';
     }
 
-    public function getQueryBuilder(string $tableName)
-    {
-        return new QueryBuilder($tableName, []);
-    }
-
     public function getConnection(): PDO
     {
         if ($this->connection === null){

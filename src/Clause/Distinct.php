@@ -16,7 +16,7 @@ trait Distinct
         return $this;
     }
 
-    public function isDistinct(): bool
+    public function getDistinct(): bool
     {
         return $this->distinct;
     }
