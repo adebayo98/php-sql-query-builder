@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+use Adebayo\QueryBuilder\Model\Driver;
 use Adebayo\QueryBuilder\QueryBuilder;
 use Adebayo\QueryBuilder\Model\RelationColumn;
 
@@ -243,7 +244,11 @@ class SelectTest extends TestCase
     {
         $sql = "SELECT last_name FROM man INTERSECT SELECT last_name FROM woman";
 
-        $qb = (new QueryBuilder())
+        $options = [
+            'driver' => Driver::POSTGRSQL
+        ];
+
+        $qb = (new QueryBuilder($options))
             ->select('man')
             ->addColumn('last_name')
             ->intersect('woman', function ($query){

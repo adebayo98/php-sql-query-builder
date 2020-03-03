@@ -17,7 +17,7 @@ abstract class Common
     public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->driver = $options['driver'] ?? Driver::MYSQL;
+        $this->driver = isset($options['driver']) ? $options['driver'] : Driver::MYSQL;
     }
 
     public function getTableName(): string
@@ -32,5 +32,10 @@ abstract class Common
     public function __toString()
     {
         return "Overloaded this method in the " . self::class;
+    }
+
+    public function getDriver(): string
+    {
+        return $this->driver;
     }
 }
