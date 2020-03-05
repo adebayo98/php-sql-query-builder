@@ -4,6 +4,7 @@
 namespace Adebayo\QueryBuilder;
 
 use Adebayo\QueryBuilder\Operation\Create;
+use Adebayo\QueryBuilder\Operation\Insert;
 use Adebayo\QueryBuilder\Operation\Select;
 
 
@@ -18,9 +19,9 @@ class QueryBuilder
         $this->options = $options;
     }
 
-    public function createTable(string $tableName)
+    public function insert(string $tableName)
     {
-        return new Create($tableName);
+        return new Insert($tableName, $this->options);
     }
 
     public function select(string $tableName)
@@ -28,10 +29,7 @@ class QueryBuilder
         return new Select($tableName, $this->options);
     }
 
-    public function insert(string $tableName)
-    {
 
-    }
 
     public function update(string $tableName)
     {
@@ -41,6 +39,11 @@ class QueryBuilder
     public function delete(string $tableName)
     {
 
+    }
+
+    public function createTable(string $tableName)
+    {
+        return new Create($tableName);
     }
 
 }

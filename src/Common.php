@@ -25,15 +25,6 @@ abstract class Common
         return $this->tableName;
     }
 
-    /**
-     * @todo Throw new exception if this method is not overloaded in child class ?
-     * @return string
-     */
-    public function __toString()
-    {
-        return "Overloaded this method in the " . self::class;
-    }
-
     public function getDriver(): string
     {
         return $this->driver;

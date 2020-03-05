@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 class CreateTest extends TestCase
 {
 
-    public function testCreate()
+    /*public function testCreate()
     {
         $sql = "
             CREATE TABLE test (
@@ -22,6 +22,6 @@ class CreateTest extends TestCase
         $sql = str_replace("\n", " ", $sql);
         $sql = preg_replace("# +#", " ", $sql);
         return trim($sql);
-    }
+    }*/
 
 }
