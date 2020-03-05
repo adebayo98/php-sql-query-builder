@@ -27,7 +27,6 @@ class Insert extends Common
         foreach ($data as $key => $datum){
             $this->data[$key] = $this->parseColumnValue($datum);
         }
-
         return $this;
     }
 
