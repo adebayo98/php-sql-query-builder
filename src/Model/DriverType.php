@@ -4,7 +4,7 @@
 namespace Adebayo\QueryBuilder\Model;
 
 
-class Driver
+class DriverType
 {
     /**
      * SGBD Mysql database provider.

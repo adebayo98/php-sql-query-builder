@@ -3,7 +3,7 @@
 
 namespace Adebayo\QueryBuilder;
 
-use Adebayo\QueryBuilder\Model\Driver;
+use Adebayo\QueryBuilder\Model\DriverType;
 
 
 abstract class Common
@@ -17,7 +17,7 @@ abstract class Common
     public function __construct(string $tableName, $options = [])
     {
         $this->tableName = $tableName;
-        $this->driver = isset($options['driver']) ? $options['driver'] : Driver::MYSQL;
+        $this->driver = isset($options['driver']) ? $options['driver'] : DriverType::MYSQL;
     }
 
     public function getTableName(): string

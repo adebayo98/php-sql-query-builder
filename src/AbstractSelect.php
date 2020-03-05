@@ -17,7 +17,7 @@ use Adebayo\QueryBuilder\Clause\Union;
 use Adebayo\QueryBuilder\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Model\Driver;
+use Adebayo\QueryBuilder\Model\DriverType;
 
 
 abstract class AbstractSelect extends Common implements SelectContextInterface
@@ -73,7 +73,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
         if ($this->intersect !== null){
 
-            if ($this->driver === Driver::MYSQL){
+            if ($this->driver === DriverType::MYSQL){
                 throw new \Exception('INTERSECT is not available on mysql but you can use whereInSubquery to work around this problem.');
             }
 
@@ -89,7 +89,7 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     private function parseDistinct()
     {
-        return $this->driver === Driver::ORACLE ? ' UNIQUE' : ' DISTINCT';
+        return $this->driver === DriverType::ORACLE ? ' UNIQUE' : ' DISTINCT';
     }
 
     public function parseColumns()

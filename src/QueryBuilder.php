@@ -3,6 +3,7 @@
 
 namespace Adebayo\QueryBuilder;
 
+use Adebayo\QueryBuilder\Operation\Create;
 use Adebayo\QueryBuilder\Operation\Select;
 
 
@@ -15,6 +16,11 @@ class QueryBuilder
     public function __construct($options = [])
     {
         $this->options = $options;
+    }
+
+    public function createTable(string $tableName)
+    {
+        return new Create($tableName);
     }
 
     public function select(string $tableName)
