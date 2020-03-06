@@ -14,11 +14,11 @@ class InsertTest extends TestCase
 
         $qb = (new QueryBuilder())
             ->insert('user')
-            ->addData('last_name', 'HOUNTONDJI')
-            ->addData('first_name', 'Adebayo')
-            ->addData('email', 'hountondjigodwill@gmail.com')
-            ->addData('password', 'password')
-            ->addData('age', 21)
+            ->addValue('last_name', 'HOUNTONDJI')
+            ->addValue('first_name', 'Adebayo')
+            ->addValue('email', 'hountondjigodwill@gmail.com')
+            ->addValue('password', 'password')
+            ->addValue('age', 21)
         ;
 
         $this->assertEquals($sql, $qb->__toString());

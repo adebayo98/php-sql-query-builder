@@ -4,6 +4,7 @@
 namespace Adebayo\QueryBuilder\Operation;
 
 use Adebayo\QueryBuilder\Common;
+use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Exception;
 
 
@@ -22,30 +23,21 @@ class Insert extends Common
         return "INSERT INTO {$this->tableName} (" . implode(', ', array_keys($this->data)) . ") VALUES (" . implode(', ', $this->data) . ")";
     }
 
-    public function data(array $data): self
+    public function values(array $data): self
     {
         foreach ($data as $key => $datum){
-            $this->data[$key] = $this->parseColumnValue($datum);
+            $this->data[$key] = ColumnParser::value($datum);
         }
         return $this;
     }
 
-    public function addData(string $column, $value): self
+    public function addValue(string $column, $value): self
     {
-        $this->data[$column] = $this->parseColumnValue($value);
+        $this->data[$column] = ColumnParser::value($value);
         return $this;
     }
 
-    private function parseColumnValue($value)
-    {
-        if (is_string($value)){
-            return "'{$value}'";
-        }
-
-        return $value;
-    }
-
-    public function getData(): array
+    public function getValues(): array
     {
         return $this->data;
     }

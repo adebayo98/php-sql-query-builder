@@ -39,4 +39,13 @@ class ColumnParser
 
         return substr(trim($jsonObjectContent), 0, -1);
     }
+
+    public static function value($value)
+    {
+        if (is_string($value)){
+            return "'{$value}'";
+        }
+
+        return $value;
+    }
 }
