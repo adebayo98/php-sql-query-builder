@@ -77,7 +77,7 @@ $qb->insert('user')
    ->value('uuid', '110e8400-e29b-11d4-a716-446655440000')
    ->value('first_name', 'Adebayo')
    ->value('age', 21)
-   // Add method bind on qb. This method is available on all operations (delete, select ...)
+   // Call method bind on qb instance. This method is available on all operations (delete, select ...)
    ->bind()
 ;
 
