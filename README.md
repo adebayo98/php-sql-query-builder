@@ -17,9 +17,9 @@ composer require adebayo/php-query-builder
 
 To start, create an instance of QueryBuilder. This class contains all the methods necessary to 
 build sql requests for a lot of operations such as "INSERT INTO", "UPDATE", "SELECT" and others. 
-You can also **add options** to it in constructor to define for example the database driver on which the 
+You can also *add options* to it in constructor to define for example the database driver on which the 
 queries will be executed etc ... 
-(All options are defined in the php doc of the contructor of **Adebayo\QueryBuilder\Common** class).
+(All options are defined in the php doc of the contructor of *Adebayo\QueryBuilder\Common* class).
 
 ```php
 <?php
