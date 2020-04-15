@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Clause;
+namespace Adebayo\QueryBuilder\Component\Clause;
 
 use Adebayo\QueryBuilder\Model\CaseClause;
 use Adebayo\QueryBuilder\Model\RelationColumn;

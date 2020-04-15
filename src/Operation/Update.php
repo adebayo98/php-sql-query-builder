@@ -3,15 +3,15 @@
 
 namespace Adebayo\QueryBuilder\Operation;
 
-use Adebayo\QueryBuilder\Clause\Where;
+use Adebayo\QueryBuilder\Component\Clause\Where;
 use Adebayo\QueryBuilder\Common;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 
 
 class Update extends Common
 {
-    use Where;
 
+    use Where;
 
     private array $data = [];
 
@@ -35,7 +35,7 @@ class Update extends Common
         return $this;
     }
 
-    public function changeValue(string $column, $value): self
+    public function value(string $column, $value): self
     {
         $this->data[$column] = ColumnParser::value($value);
         return $this;

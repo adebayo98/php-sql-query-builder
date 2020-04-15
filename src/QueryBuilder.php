@@ -37,7 +37,6 @@ class QueryBuilder
 
     public function delete(string $tableName)
     {
-
     }
 
     public function createTable(string $tableName)

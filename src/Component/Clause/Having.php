@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Adebayo\QueryBuilder\Clause;
+namespace Adebayo\QueryBuilder\Component\Clause;
 
 
 trait Having

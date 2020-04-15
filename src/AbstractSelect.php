@@ -3,18 +3,18 @@
 
 namespace Adebayo\QueryBuilder;
 
-use Adebayo\QueryBuilder\Clause\Cache;
-use Adebayo\QueryBuilder\Clause\Column;
-use Adebayo\QueryBuilder\Clause\Distinct;
-use Adebayo\QueryBuilder\Clause\GroupBy;
-use Adebayo\QueryBuilder\Clause\Having;
-use Adebayo\QueryBuilder\Clause\Intersect;
-use Adebayo\QueryBuilder\Clause\Join;
-use Adebayo\QueryBuilder\Clause\Limit;
-use Adebayo\QueryBuilder\Clause\Offset;
-use Adebayo\QueryBuilder\Clause\OrderBy;
-use Adebayo\QueryBuilder\Clause\Union;
-use Adebayo\QueryBuilder\Clause\Where;
+use Adebayo\QueryBuilder\Component\Clause\Cache;
+use Adebayo\QueryBuilder\Component\Clause\Column;
+use Adebayo\QueryBuilder\Component\Clause\Distinct;
+use Adebayo\QueryBuilder\Component\Clause\GroupBy;
+use Adebayo\QueryBuilder\Component\Clause\Having;
+use Adebayo\QueryBuilder\Component\Clause\Intersect;
+use Adebayo\QueryBuilder\Component\Clause\Join;
+use Adebayo\QueryBuilder\Component\Clause\Limit;
+use Adebayo\QueryBuilder\Component\Clause\Offset;
+use Adebayo\QueryBuilder\Component\Clause\OrderBy;
+use Adebayo\QueryBuilder\Component\Clause\Union;
+use Adebayo\QueryBuilder\Component\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Adebayo\QueryBuilder\Model\DriverType;

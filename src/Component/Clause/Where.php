@@ -1,6 +1,6 @@
 <?php
 
-namespace Adebayo\QueryBuilder\Clause;
+namespace Adebayo\QueryBuilder\Component\Clause;
 
 use Adebayo\QueryBuilder\Model\WhereGroup;
 use Adebayo\QueryBuilder\Operation\Select;

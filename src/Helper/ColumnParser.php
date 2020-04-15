@@ -42,8 +42,8 @@ class ColumnParser
 
     public static function value($value)
     {
-        if (is_string($value)){
-            return "'{$value}'";
+        if (!preg_match('/^\:/', $value) && $value !== '?'){
+            return "'" . $value . "'";
         }
 
         return $value;

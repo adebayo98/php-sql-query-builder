@@ -3,7 +3,7 @@
 
 namespace Adebayo\QueryBuilder\Model;
 
-use Adebayo\QueryBuilder\Clause\Where;
+use Adebayo\QueryBuilder\Component\Clause\Where;
 
 
 class WhereGroup
