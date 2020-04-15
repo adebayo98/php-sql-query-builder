@@ -35,9 +35,8 @@ $qb->insert('user')
    ])
 ;
 
-$sql = $qb->__toString();
-
-// The value of $sql is "INSERT INTO user (uuid, last_name, age) VALUES ('110e8400-e29b-11d4-a716-446655440000', 'HOUNTONDJI', '21')"
+echo $qb->__toString();
+// INSERT INTO user (uuid, last_name, age) VALUES ('110e8400-e29b-11d4-a716-446655440000', 'HOUNTONDJI', '21')
 
 ```
 
