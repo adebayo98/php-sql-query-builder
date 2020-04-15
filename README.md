@@ -1,19 +1,19 @@
 # Documentation
 
-### Summary
+## Summary
 + [Installation](#install)
 + [Get started](#get-started)
 + [Insert](#insert-into)
 
 <a name="install"></a>
-#### Installation
+### Installation
 
 ```bash
 composer require adebayo/php-query-builder
 ```
 
 <a name="get-started"></a>
-#### Create a sql query builder
+### Create a sql query builder
 
 To start, create an instance of QueryBuilder. This class contains all the methods necessary to 
 build sql requests for a lot of operations such as "INSERT INTO", "UPDATE", "SELECT" and others. 
@@ -32,7 +32,7 @@ $qb = new QueryBuilder();
 ```
 
 <a name="insert-into"></a>
-#### Create a sql query to insert data into a database
+### Create a sql query to insert data into a database
 
 
 ```php
