@@ -11,12 +11,11 @@ echo "<pre>";
 $connection = new PDO("mysql:dbname=tasks;host=62.210.16.27;port=6069", "user", "adminpass1!");
 
 $qb = (new QueryBuilder())
-    ->insert('user')
-    ->value('uuid', '110e8400-e29b-11d4-a716-446655440000')
-    ->value('first_name', 'Adebayo')
-    ->value('age', 21)
-    // Call method bind on qb instance. This method is available on all operations (delete, select ...)
-    ->bind()
+    ->update('user')
+    ->value('updated_at', '2020-04-15')
+    ->where('last_name', '=', 'BEN')
+    ->where('age', '<', 40)
+    ->orWhere('last_name', '=', 'SIMMON')
 ;
 
 echo $qb->__toString() . "\n";

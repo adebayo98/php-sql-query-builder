@@ -117,7 +117,7 @@ $qb->update('user')
 ;
 
 echo $qb->__toString();
-// UPDATE user SET updated_at = '2020-04-15' WHERE last_name = 'BEN', AND age < '40', OR last_name = 'SIMMON'
+// UPDATE user SET updated_at = '2020-04-15' WHERE last_name = 'BEN' AND age < '40' OR last_name = 'SIMMON'
 
 ```
 

@@ -45,7 +45,7 @@ trait Where
         foreach ($this->where as $condition){
             $conditions[] = "{$condition[0]} {$condition[1]} {$condition[2]} " . ColumnParser::value($condition[3]);
         }
-        return trim(implode(', ', $conditions));
+        return trim(implode(' ', $conditions));
     }
 
     private function parseWhereBind(): string
