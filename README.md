@@ -6,7 +6,9 @@ This library is under development
 + [Installation](#install)
 + [Get started](#get-started)
 + [Insert](#insert-into)
++ [Select](#select)
 + [Update](#update)
++ [Delete](#delete)
 
 <a name="install"></a>
 ### Installation
@@ -95,12 +97,13 @@ Array
 
 ```
 
+<a name="select"></a>
+#### SELECT
 
 <a name="update"></a>
 #### UPDATE
 
+<a name="delete"></a>
 #### DELETE
-
-#### SELECT
 
 
