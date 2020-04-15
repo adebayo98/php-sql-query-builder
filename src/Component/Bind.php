@@ -3,6 +3,7 @@
 
 namespace Adebayo\QueryBuilder\Component;
 
+
 /**
  * Part of the sql operations used to create a query with named parameters for each defined column.
  *
@@ -19,14 +20,14 @@ trait Bind
      *
      * @var bool
      */
-    private bool $bind = false;
+    protected bool $bind = false;
 
     /**
      * Associative array of named parameters and their respective values.
      *
      * @var array
      */
-    private array $valuesBind = [];
+    protected array $valuesBind = [];
 
 
     /**

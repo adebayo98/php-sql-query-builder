@@ -26,7 +26,7 @@ class InsertTest extends TestCase
 
     public function testInsertWithBindMethod()
     {
-        $sql = "INSERT INTO user (uuid, last_name, first_name, age, created_at) VALUES (:user_uuid, :user_last_name, :user_first_name, :user_age, :user_created_at)";
+        $sql = "INSERT INTO user (uuid, last_name, first_name, age, created_at) VALUES (:v1, :v2, :v3, :v4, :v5)";
 
         $uuid = '110e8400-e29b-11d4-a716-446655440000';
         $lastName = 'HOUNTONDJI';
@@ -42,8 +42,8 @@ class InsertTest extends TestCase
         ;
 
         $this->assertEquals($sql, $qb->__toString());
-        $this->assertEquals($qb->getValuesBind()[':user_uuid'], $uuid);
-        $this->assertEquals($qb->getValuesBind()[':user_last_name'], $lastName);
+        $this->assertEquals($qb->getValuesBind()[':v1'], $uuid);
+        $this->assertEquals($qb->getValuesBind()[':v2'], $lastName);
     }
 
     public function testInsertWithParamsInValue()

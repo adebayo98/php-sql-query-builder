@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Adebayo\QueryBuilder\Operation;
 
 use Adebayo\QueryBuilder\Component\Clause\Where;
@@ -18,6 +17,8 @@ class Update extends Common
 
     public function __toString()
     {
+        parent::__toString();
+
         $sql = "UPDATE {$this->tableName} SET {$this->parseUpdateValues()}";
 
         if (!empty($this->where)){
@@ -30,14 +31,14 @@ class Update extends Common
     public function values(array $data): self
     {
         foreach ($data as $key => $datum){
-            $this->data[$key] = ColumnParser::value($datum);
+            $this->data[$key] = $datum;
         }
         return $this;
     }
 
     public function value(string $column, $value): self
     {
-        $this->data[$column] = ColumnParser::value($value);
+        $this->data[$column] = $value;
         return $this;
     }
 
@@ -48,11 +49,21 @@ class Update extends Common
 
     private function parseUpdateValues()
     {
-        $values = "";
-        foreach ($this->data as $key => $datum){
-            $values.= " {$key} = {$datum},";
+        $updates = "";
+
+        if ($this->bind){
+            foreach ($this->data as $key => $datum){
+                $param = $this->getParamCounter();
+                $this->valuesBind[$param] = $datum;
+                $updates.= " {$key} = {$param},";
+            }
+        }else{
+            foreach ($this->data as $key => $datum){
+                $updates.= " {$key} = " . ColumnParser::value($datum) . ",";
+            }
         }
-        return substr(trim($values), 0, -1);
+
+        return substr(trim($updates), 0, -1);
     }
 
 }

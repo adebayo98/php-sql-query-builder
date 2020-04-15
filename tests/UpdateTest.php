@@ -9,15 +9,35 @@ class UpdateTest extends TestCase
 
     public function testUpdate()
     {
-        $sql = 'UPDATE user SET first_name = "Godwill" WHERE user.uuid = "110e8400-e29b-11d4-a716-446655440000"';
+        $sql = "UPDATE user SET first_name = 'Godwill' WHERE uuid = '110e8400-e29b-11d4-a716-446655440000'";
 
         $qb = (new QueryBuilder())
             ->update('user')
             ->value('first_name', 'Godwill')
-            ->where('user.id = 110e8400-e29b-11d4-a716-446655440000')
+            ->where('uuid', '=', '110e8400-e29b-11d4-a716-446655440000')
         ;
 
         $this->assertEquals($sql, $qb->__toString());
+    }
+
+    public function testUpdateWithParam()
+    {
+        $sql = "UPDATE user SET updated_at = :v1 WHERE user.last_name = :v2 AND user.age < :v3 OR user.last_name = :v4";
+
+        $qb = (new QueryBuilder())
+            ->update('user')
+            ->value('updated_at', '2020-04-15')
+            ->where('last_name', '=', 'BEN')
+            ->where('age', '<', 40)
+            ->orWhere('last_name', '=', 'SIMMON')
+            ->bind()
+        ;
+
+        $this->assertEquals($sql, $qb->__toString());
+        $this->assertEquals($qb->getValuesBind()[':v1'], '2020-04-15');
+        $this->assertEquals($qb->getValuesBind()[':v2'], 'BEN');
+        $this->assertEquals($qb->getValuesBind()[':v3'], 40);
+        $this->assertEquals($qb->getValuesBind()[':v4'], 'SIMMON');
     }
 
 }

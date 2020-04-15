@@ -38,7 +38,7 @@ $qb = new QueryBuilder();
 
 
 <a name="insert-into"></a>
-### Build a sql query to insert data into database
+### Build a sql query to insert data into a database
 
 ```php
 <?php
@@ -64,7 +64,6 @@ echo $qb->__toString();
 
 ```
 
-
 <a name="prepare-query"></a>
 If you want to create a query for a prepared request with named parameters you can proceed as below. 
 The protocol is the same for all operations.
@@ -82,26 +81,45 @@ $qb->insert('user')
 ;
 
 echo $qb->__toString();
-// INSERT INTO user (uuid, first_name, age) VALUES (:user_uuid, :user_first_name, :user_age)
+// INSERT INTO user (uuid, first_name, age) VALUES (:v1, :v2, :v3)
 
 print_r($qb->getValuesBind());
 
 /*
 Array
 (
-    [:user_uuid] => 110e8400-e29b-11d4-a716-446655440000
-    [:user_first_name] => Adebayo
-    [:user_age] => 21
+    [:v1] => 110e8400-e29b-11d4-a716-446655440000
+    [:v2] => Adebayo
+    [:v3] => 21
 )
-*/
 
+NB: getValuesBind() must be call after __toString() and when bind() is call on qb.
+*/
 ```
+
 
 <a name="select"></a>
 #### SELECT
 
+
 <a name="update"></a>
-#### UPDATE
+### Build a sql query to insert data into a database
+```php
+<?php
+// ...
+
+$qb->update('user')
+   ->value('updated_at', '2020-04-15')
+   ->where('last_name', '=', 'BEN')
+   ->where('age', '<', 40)
+   ->orWhere('last_name', '=', 'SIMMON')
+;
+
+echo $qb->__toString();
+// UPDATE user SET updated_at = '2020-04-15' WHERE last_name = 'BEN', AND age < '40', OR last_name = 'SIMMON'
+
+```
+
 
 <a name="delete"></a>
 #### DELETE

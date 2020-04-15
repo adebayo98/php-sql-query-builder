@@ -4,14 +4,13 @@
 namespace Adebayo\QueryBuilder\Operation;
 
 use Adebayo\QueryBuilder\Common;
-use Adebayo\QueryBuilder\Component\Bind;
 use Adebayo\QueryBuilder\Component\Execute;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Exception;
 
 
 /**
- * Builder for INSERT INTO sql request.
+ * Query builder for INSERT INTO sql request.
  *
  * @link https://sql.sh/cours/insert-into
  *
@@ -22,7 +21,6 @@ use Exception;
 class Insert extends Common
 {
 
-    use Bind;
     use Execute;
 
     /**
@@ -88,7 +86,7 @@ class Insert extends Common
         }
 
         foreach ($this->data as $key => $datum){
-            $this->valuesBind[':' . $this->tableName . '_' . $key] = $datum;
+            $this->valuesBind[$this->getParamCounter()] = $datum;
         }
 
         return implode(', ', array_keys($this->valuesBind));
