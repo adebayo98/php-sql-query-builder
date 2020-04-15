@@ -100,10 +100,11 @@ NB: getValuesBind() must be call after __toString() and when bind() is call on q
 
 <a name="select"></a>
 #### SELECT
+(loading ...)
 
 
 <a name="update"></a>
-### Build a sql query to insert data into a database
+### Build a sql query to update data into a database
 ```php
 <?php
 // ...
@@ -120,8 +121,9 @@ echo $qb->__toString();
 
 ```
 
-
 <a name="delete"></a>
 #### DELETE
+(loading ...)
+
 
 
