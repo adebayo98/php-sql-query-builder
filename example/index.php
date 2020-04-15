@@ -17,9 +17,11 @@ $qb = (new QueryBuilder())
         'last_name' => 'HOUNTONDJI',
         'age' => 21
     ])
+    ->bind()
 ;
 
 print_r($qb->__toString());
+print_r($qb->getValuesBind());
 die;
 
 $sth = $connection->prepare($qb->__toString());
