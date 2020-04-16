@@ -65,7 +65,7 @@ echo $qb->__toString();
 ```
 
 <a name="prepare-query"></a>
-If you want to create a query for a prepared request with named parameters you can proceed as below. 
+If you want to build a query for a prepared request with named parameters you can proceed as below. 
 The protocol is the same for all operations.
 
 ```php

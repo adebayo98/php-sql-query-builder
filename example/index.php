@@ -1,26 +1,29 @@
 <?php
 
 use Adebayo\QueryBuilder\QueryBuilder;
+use Adebayo\QueryBuilder\Model\SubWhere;
 
 require_once '../vendor/autoload.php';
 
 ini_set('display_errors', 1);
 
 echo "<pre>";
-
 $connection = new PDO("mysql:dbname=tasks;host=62.210.16.27;port=6069", "user", "adminpass1!");
 
 $qb = (new QueryBuilder())
     ->update('user')
     ->value('updated_at', '2020-04-15')
-    ->where('last_name', '=', 'BEN')
     ->where('age', '<', 40)
-    ->orWhere('last_name', '=', 'SIMMON')
+    ->orSubWhere(function (SubWhere $subWhere){
+        $subWhere->where('is_admin', '=', true)
+            ->orWhere('last_name', '=', 'SIMMON')
+        ;
+    })
+    ->bind()
 ;
 
 echo $qb->__toString() . "\n";
 print_r($qb->getValuesBind());
-die;
 
 $sth = $connection->prepare($qb->__toString());
 

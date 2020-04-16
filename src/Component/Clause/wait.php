@@ -1,7 +1,7 @@
 <?php
 
 
-use Adebayo\QueryBuilder\Model\WhereGroup;
+use Adebayo\QueryBuilder\Model\SubWhere;
 use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\QueryBuilder;
 
@@ -72,13 +72,13 @@ trait Where
 
     public function whereGroup(callable $callable): self
     {
-        $this->where("(" . call_user_func_array($callable, [new WhereGroup()])->parseWhere() . ")");
+        $this->where("(" . call_user_func_array($callable, [new SubWhere()])->parseWhere() . ")");
         return $this;
     }
 
     public function orWhereGroup(callable $callable): self
     {
-        $this->orWhere("(" . call_user_func_array($callable, [new WhereGroup()])->parseWhere() . ")");
+        $this->orWhere("(" . call_user_func_array($callable, [new SubWhere()])->parseWhere() . ")");
         return $this;
     }
 
