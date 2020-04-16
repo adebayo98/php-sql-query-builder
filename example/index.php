@@ -12,7 +12,7 @@ $connection = new PDO("mysql:dbname=tasks;host=62.210.16.27;port=6069", "user", 
 
 $qb = (new QueryBuilder())
     ->update('user')
-    ->value('updated_at', '2020-04-15')
+    ->set('updated_at', '2020-04-15')
     ->where('age', '<', 40)
     ->orSubWhere(function (SubWhere $subWhere){
         $subWhere->where('is_admin', '=', true)

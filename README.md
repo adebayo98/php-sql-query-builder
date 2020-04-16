@@ -110,7 +110,7 @@ NB: getValuesBind() must be call after __toString() and when bind() is call on q
 // ...
 
 $qb->update('user')
-   ->value('updated_at', '2020-04-15')
+   ->set('updated_at', '2020-04-15')
    ->where('last_name', '=', 'BEN')
    ->where('age', '<', 40)
    ->orWhere('last_name', '=', 'SIMMON')

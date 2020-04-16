@@ -36,7 +36,7 @@ class Update extends Common
         return $this;
     }
 
-    public function value(string $column, $value): self
+    public function set(string $column, $value): self
     {
         $this->data[$column] = $value;
         return $this;

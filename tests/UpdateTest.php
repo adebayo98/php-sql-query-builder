@@ -13,7 +13,7 @@ class UpdateTest extends TestCase
 
         $qb = (new QueryBuilder())
             ->update('user')
-            ->value('first_name', 'Godwill')
+            ->set('first_name', 'Godwill')
             ->where('uuid', '=', '110e8400-e29b-11d4-a716-446655440000')
         ;
 
@@ -26,7 +26,7 @@ class UpdateTest extends TestCase
 
         $qb = (new QueryBuilder())
             ->update('user')
-            ->value('updated_at', '2020-04-15')
+            ->set('updated_at', '2020-04-15')
             ->where('last_name', '=', 'BEN')
             ->where('age', '<', 40)
             ->orWhere('last_name', '=', 'SIMMON')
