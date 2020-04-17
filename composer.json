@@ -5,20 +5,26 @@
     "license": "WTFPL",
     "keywords": ["php", "pdo", "mysql", "query builder"],
     "version": "1.0.0",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Adebayo",
             "role": "Developer"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {
-      "ext-pdo": "*"
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.*.*"
+        }
     },
     "autoload": {
         "psr-4": {
             "Adebayo\\QueryBuilder\\": "src/"
         }
+    },
+    "require": {
+      "ext-pdo": "*"
     },
     "require-dev": {
         "phpunit/dbunit": "^4.0"

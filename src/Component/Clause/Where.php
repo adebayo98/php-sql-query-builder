@@ -14,17 +14,17 @@ trait Where
 
     public function where(string $column, string $compare, string $value): self
     {
-        $this->buildWhereRow($column, $compare, $value);
+        $this->addWhereRow($column, $compare, $value);
         return $this;
     }
 
     public function orWhere(string $column, string $compare, string $value): self
     {
-        $this->buildWhereRow($column, $compare, $value, 'OR');
+        $this->addWhereRow($column, $compare, $value, 'OR');
         return $this;
     }
 
-    private function buildWhereRow(string $column, string $compare, string $value, $logicOperator = 'AND'): void
+    private function addWhereRow(string $column, string $compare, string $value, $logicOperator = 'AND'): void
     {
         $this->where[] = (object) [
             'logic_operator' => (empty($this->where) ? '' : $logicOperator),
@@ -36,17 +36,17 @@ trait Where
 
     public function subWhere(callable $callable): self
     {
-        $this->buildSubWhereRow($callable);
+        $this->addSubWhereRow($callable);
         return $this;
     }
 
     public function orSubWhere(callable $callable): self
     {
-        $this->buildSubWhereRow($callable, 'OR');
+        $this->addSubWhereRow($callable, 'OR');
         return $this;
     }
 
-    private function buildSubWhereRow(callable $callable, $logicOperator = 'AND')
+    private function addSubWhereRow(callable $callable, $logicOperator = 'AND')
     {
         $subWhere = new SubWhere();
         $callable($subWhere);
@@ -59,26 +59,18 @@ trait Where
 
     public function parseWhere(): string
     {
-        if (isset($this->bind) ? $this->bind : false){
-            return $this->parseWhereBind();
-        }else{
-            return $this->parseWhereNotBind();
+        /* Query must be bind with params */
+        if ($this->bind){
+            return $this->buildWhereParser(function (object $condition){
+                $param = $this->getParamCounter();
+                $this->valuesBind[$param] = $condition->value;
+                return "{$condition->logic_operator} {$this->tableName}.{$condition->column} {$condition->compare} {$param}";
+            });
         }
-    }
 
-    private function parseWhereNotBind(): string
-    {
+        /* Query not bind with params */
         return $this->buildWhereParser(function (object $condition){
             return "{$condition->logic_operator} {$condition->column} {$condition->compare} " . ColumnParser::value($condition->value);
-        });
-    }
-
-    private function parseWhereBind(): string
-    {
-        return $this->buildWhereParser(function (object $condition){
-            $param = $this->getParamCounter();
-            $this->valuesBind[$param] = $condition->value;
-            return "{$condition->logic_operator} {$this->tableName}.{$condition->column} {$condition->compare} {$param}";
         });
     }
 
