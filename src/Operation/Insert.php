@@ -20,7 +20,6 @@ use Exception;
  */
 class Insert extends Common
 {
-
     use Execute;
 
     /**
