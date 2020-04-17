@@ -14,7 +14,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.0-dev"
+            "dev-master": "1.0.0"
         }
     },
     "autoload": {
@@ -23,7 +23,7 @@
         }
     },
     "require": {
-      "ext-pdo": "*"
+        "ext-pdo": "*"
     },
     "require-dev": {
         "phpunit/dbunit": "^4.0"
