@@ -1,5 +1,5 @@
 {
-    "name": "adebayo/php-query-builder",
+    "name": "adebayo/php-sql-query-builder",
     "description": "Php pdo query builder",
     "type": "library",
     "license": "WTFPL",
