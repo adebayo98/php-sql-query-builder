@@ -33,6 +33,8 @@ class Insert extends Common
 
     public function __toString()
     {
+        parent::__toString();
+
         if (empty($this->data)){
             throw new Exception('Use method addData to defined data to insert in database');
         }
