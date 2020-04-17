@@ -14,7 +14,7 @@ This library is under development
 ### Installation
 
 ```bash
-composer require adebayo/php-query-builder
+composer require adebayo/php-sql-query-builder
 ```
 
 <a name="get-started"></a>
