@@ -17,9 +17,8 @@ trait Column
     public function columns(...$columns): self
     {
         foreach ($columns as $column){
-            $this->columns[] = $column;
+            $this->columns[] = "{$this->tableName()}.{$column}";
         }
-
         return $this;
     }
 
@@ -28,8 +27,7 @@ trait Column
         if (empty($this->columns)){
             return "*";
         }
-
-        return "";
+        return implode(', ', array_unique($this->columns));
     }
 
 }
