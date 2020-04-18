@@ -70,7 +70,7 @@ trait Where
 
         /* Query not bind with params */
         return $this->buildWhereParser(function (object $condition){
-            return "{$condition->logic_operator} {$condition->column} {$condition->compare} " . ColumnParser::value($condition->value);
+            return "{$condition->logic_operator} {$this->tableName}.{$condition->column} {$condition->compare} " . ColumnParser::value($condition->value);
         });
     }
 

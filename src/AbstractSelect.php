@@ -48,6 +48,10 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     {
         $sql = "SELECT {$this->parseColumnsData()} FROM {$this->tableName()}";
 
+        if (!empty($this->where)){
+            $sql.= " WHERE {$this->parseWhere()}";
+        }
+
         return $sql;
     }
 

@@ -9,7 +9,7 @@ class UpdateTest extends TestCase
 
     public function testUpdate()
     {
-        $sql = "UPDATE user SET first_name = 'Godwill' WHERE uuid = '110e8400-e29b-11d4-a716-446655440000'";
+        $sql = "UPDATE user SET first_name = 'Godwill' WHERE user.uuid = '110e8400-e29b-11d4-a716-446655440000'";
 
         $qb = (new QueryBuilder())
             ->update('user')

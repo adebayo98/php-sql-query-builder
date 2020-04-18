@@ -38,6 +38,30 @@ class SelectTest extends TestCase
         $this->assertEquals($this->prettify($sql), $qb2->__toString());
     }
 
+    public function testSelectColumnAlias()
+    {
+        $sql = "SELECT client.prenom AS pre, client.nom AS nm FROM client";
+
+        $qb = (new QueryBuilder)
+            ->select('client')
+            ->columns('prenom AS pre', ' nom AS nm')
+        ;
+
+        $this->assertEquals($sql, $qb->__toString());
+    }
+
+    public function testSelectWhere()
+    {
+        $sql = "SELECT client.prenom, client.nom FROM client WHERE client.id = '1'";
+
+        $qb = (new QueryBuilder())
+            ->select('client')
+            ->columns('prenom', 'nom')
+            ->where('id', '=', 1)
+        ;
+
+        $this->assertEquals($sql, $qb->__toString());
+    }
 
     private function prettify(string $sql)
     {

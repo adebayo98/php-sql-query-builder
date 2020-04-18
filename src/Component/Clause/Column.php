@@ -17,7 +17,7 @@ trait Column
     public function columns(...$columns): self
     {
         foreach ($columns as $column){
-            $this->columns[] = "{$this->tableName()}.{$column}";
+            $this->columns[] = "{$this->tableName()}." . trim($column);
         }
         return $this;
     }
