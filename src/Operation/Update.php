@@ -6,12 +6,25 @@ use Adebayo\QueryBuilder\Component\Clause\Where;
 use Adebayo\QueryBuilder\Common;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 
-
+/**
+ * Query builder for UPDATE sql request.
+ *
+ * @link https://sql.sh/cours/update
+ *
+ * @since 1.0
+ * @version 1.0
+ * @author HOUNTONDJI Adebayo <hountondjigodwill@gmail.com>
+ */
 class Update extends Common
 {
 
     use Where;
 
+    /**
+     * List of data to update
+     *
+     * @var array
+     */
     private array $data = [];
 
 
@@ -19,7 +32,7 @@ class Update extends Common
     {
         parent::__toString();
 
-        $sql = "UPDATE {$this->tableName} SET {$this->parseUpdateValues()}";
+        $sql = "UPDATE {$this->tableName} SET {$this->parseUpdateData()}";
 
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
@@ -47,7 +60,7 @@ class Update extends Common
         return $this->data;
     }
 
-    private function parseUpdateValues()
+    private function parseUpdateData()
     {
         $updates = "";
 

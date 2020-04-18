@@ -17,7 +17,7 @@ use Adebayo\QueryBuilder\Component\Clause\Union;
 use Adebayo\QueryBuilder\Component\Clause\Where;
 use Adebayo\QueryBuilder\Contract\SelectContextInterface;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
-use Adebayo\QueryBuilder\Model\DriverType;
+use Adebayo\QueryBuilder\Model\Driver;
 
 
 abstract class AbstractSelect extends Common implements SelectContextInterface
@@ -35,7 +35,6 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
     use Union;
     use Intersect;
 
-
     private bool $isBaseQuery;
 
 
@@ -47,54 +46,14 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     public function __toString()
     {
-        $distinct = $this->distinct ? $this->parseDistinct() : '';
-
-        $sql = "SELECT{$this->parseSqlCache()}{$distinct} {$this->parseColumns()}" . " FROM {$this->tableName}";
-
-        if (!empty($this->where)){
-            $sql.= " WHERE {$this->parseWhere()}";
-        }
-
-        if ($this->groupBy !== null){
-            $sql.= " GROUP BY {$this->groupBy}" . ($this->withRollUp === null ? '' : ' WITH ROLLUP');
-        }
-
-        if (!empty($this->having)){
-            $sql.= " HAVING {$this->parseHaving()}";
-        }
-
-        if ($this->limit !== null){
-            $sql.= " LIMIT {$this->limit}"  . ($this->offset === null ? '' : " OFFSET {$this->offset}");
-        }
-
-        if (!empty($this->orderBy)){
-            $sql.= " ORDER BY {$this->parseOrderBy()}";
-        }
-
-        if ($this->intersect !== null){
-
-            if ($this->driver === DriverType::MYSQL){
-                throw new \Exception('INTERSECT is not available on mysql but you can use whereInSubquery to work around this problem.');
-            }
-
-            $sql.= " INTERSECT {$this->intersect}";
-        }
-
-        if (!empty($this->union)){
-            $sql.= " {$this->parseUnion()}";
-        }
+        $sql = "SELECT {$this->parseColumnsData()} FROM {$this->tableName()}";
 
         return $sql;
     }
 
     private function parseDistinct()
     {
-        return $this->driver === DriverType::ORACLE ? ' UNIQUE' : ' DISTINCT';
-    }
-
-    public function parseColumns()
-    {
-        return ColumnParser::stringRow($this->columns);
+        return $this->driver === Driver::ORACLE ? ' UNIQUE' : ' DISTINCT';
     }
 
     public function tableName(): string

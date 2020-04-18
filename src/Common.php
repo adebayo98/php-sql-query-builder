@@ -3,31 +3,85 @@
 
 namespace Adebayo\QueryBuilder;
 
-use Adebayo\QueryBuilder\Component\Bind;
-use Adebayo\QueryBuilder\Model\DriverType;
+use Adebayo\QueryBuilder\Model\Driver;
 
 
 abstract class Common
 {
 
-    use Bind;
-
+    /**
+     * The name of table in which the query will be executed.
+     *
+     * @var string
+     */
     protected string $tableName;
 
+    /**
+     * Database driver type
+     * @see \Adebayo\QueryBuilder\Model\Driver
+     *
+     * @var mixed|string
+     */
     protected string $driver;
 
+    /**
+     * Counter for data to bind
+     *
+     * @var int
+     */
     private int $counter = 0;
 
+    /**
+     * Defines if the query must use named parameters for each value of the query.
+     *
+     * @var bool
+     */
+    protected bool $bind = false;
+
+    /**
+     * Associative array of named parameters and their respective values.
+     *
+     * @var array
+     */
+    protected array $valuesBind = [];
+
+
+    public function __construct(string $tableName, $options = [])
+    {
+        $this->tableName = $tableName;
+        $this->driver = isset($options['driver']) ? $options['driver'] : Driver::MYSQL;
+    }
 
     public function __toString()
     {
         $this->valuesBind = [];
     }
 
-    public function __construct(string $tableName, $options = [])
+    /**
+     * @param bool $bind
+     * @return $this
+     */
+    public function bind(bool $bind = true): self
     {
-        $this->tableName = $tableName;
-        $this->driver = isset($options['driver']) ? $options['driver'] : DriverType::MYSQL;
+        $this->bind = $bind;
+
+        return $this;
+    }
+
+    protected function getParamCounter()
+    {
+        $this->counter++;
+        return (string) ":v" .$this->counter;
+    }
+
+    /**
+     * Get the list of parameters to bind and their values.
+     *
+     * @return array
+     */
+    public function getValuesBind(): array
+    {
+        return $this->valuesBind;
     }
 
     public function getTableName(): string
@@ -40,9 +94,11 @@ abstract class Common
         return $this->driver;
     }
 
-    protected function getParamCounter()
+    public function setDriver(string $driver): self
     {
-        $this->counter++;
-        return (string) ":v" .$this->counter;
+        $this->driver = $driver;
+
+        return  $this;
     }
+
 }

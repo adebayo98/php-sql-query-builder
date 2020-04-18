@@ -4,7 +4,6 @@
 namespace Adebayo\QueryBuilder\Operation;
 
 use Adebayo\QueryBuilder\Common;
-use Adebayo\QueryBuilder\Component\Execute;
 use Adebayo\QueryBuilder\Helper\ColumnParser;
 use Exception;
 
@@ -20,7 +19,6 @@ use Exception;
  */
 class Insert extends Common
 {
-    use Execute;
 
     /**
      * Associative array with columns (array_key) and their values (array_value).
@@ -38,7 +36,7 @@ class Insert extends Common
             throw new Exception('Use method addData to defined data to insert in database');
         }
 
-        return "INSERT INTO {$this->tableName} (" . implode(', ', array_keys($this->data)) . ") VALUES (" . $this->parseInsertValues() . ")";
+        return "INSERT INTO {$this->tableName} (" . implode(', ', array_keys($this->data)) . ") VALUES (" . $this->parseInsertData() . ")";
     }
 
     /**
@@ -78,12 +76,10 @@ class Insert extends Common
         return $this->data;
     }
 
-    private function parseInsertValues(): string
+    private function parseInsertData(): string
     {
         if (!$this->bind){
-            return implode(', ', array_map(function ($value){
-                return ColumnParser::value($value);
-            }, $this->data));
+            return implode(', ', array_map(function ($value){ return ColumnParser::value($value); }, $this->data));
         }
 
         foreach ($this->data as $key => $datum){
