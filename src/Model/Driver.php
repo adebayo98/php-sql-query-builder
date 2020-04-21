@@ -26,4 +26,11 @@ class Driver
      * @var string
      */
     public const ORACLE = 'oracle';
+
+    /**
+     * SGBD SQL Server
+     *
+     * @var string
+     */
+    public const SQLSERVER = 'sqlsrv';
 }

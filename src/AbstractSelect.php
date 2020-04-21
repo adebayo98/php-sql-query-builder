@@ -46,10 +46,36 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     public function __toString()
     {
-        $sql = "SELECT {$this->parseColumnsData()} FROM {$this->tableName()}";
+        $sql = "SELECT";
 
+        // Limit for sql server driver
+        // @todo Verify for server sql
+        /*if ($this->limit !== null && $this->driver === Driver::SQLSERVER){
+            $sql.= " TOP {$this->limit}";
+        }*/
+
+        // Column and table name
+        $sql.= " {$this->parseColumnsData()} FROM {$this->tableName()}";
+
+        // Were
         if (!empty($this->where)){
             $sql.= " WHERE {$this->parseWhere()}";
+        }
+
+        // Limit for oracle driver
+        // @todo Verify for oracle db
+        /*if ($this->limit !== null && $this->driver === Driver::ORACLE){
+            $sql.=  (!empty($this->where) ? ' AND ' : ' WHERE ' ) . "ROWNUM <= {$this->limit}";
+        }*/
+
+        // Limit for postgresql and mysql drivers
+        if ($this->limit !== null && in_array($this->driver, [Driver::POSTGRSQL, Driver::MYSQL])){
+            $sql.= " LIMIT {$this->limit}";
+            if ($this->driver === Driver::POSTGRSQL){
+                $sql.= " OFFSET {$this->offset}";
+            }elseif ($this->driver === Driver::MYSQL){
+                $sql.= ", {$this->offset}";
+            }
         }
 
         return $sql;
