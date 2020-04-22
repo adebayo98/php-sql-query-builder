@@ -118,6 +118,17 @@ class SelectTest extends TestCase
 
     }
 
+    public function testInnerJoin()
+    {
+        $sql = "SELECT order.id, order.name, user.id AS user_id FROM order INNER JOIN user ON order.user_id = user.id";
+        $qb = (new QueryBuilder())
+            ->select('order')
+            ->columns('id', 'name')
+            ->innerJoin('user', 'user_id', 'id', ['id AS user_id'])
+        ;
+        $this->assertEquals($sql, $qb->__toString());
+    }
+
     private function prettify(string $sql)
     {
         $sql = str_replace("\n", " ", $sql);
