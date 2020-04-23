@@ -4,6 +4,7 @@
 namespace Adebayo\QueryBuilder;
 
 use Adebayo\QueryBuilder\Operation\Create;
+use Adebayo\QueryBuilder\Operation\Delete;
 use Adebayo\QueryBuilder\Operation\Insert;
 use Adebayo\QueryBuilder\Operation\Select;
 use Adebayo\QueryBuilder\Operation\Update;
@@ -37,11 +38,7 @@ class QueryBuilder
 
     public function delete(string $tableName)
     {
-    }
-
-    public function createTable(string $tableName)
-    {
-        return new Create($tableName);
+        return new Delete($tableName, $this->options);
     }
 
 }

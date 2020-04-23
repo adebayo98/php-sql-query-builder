@@ -29,6 +29,6 @@
         "phpunit/dbunit": "^4.0"
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit --color "
+        "test": "./vendor/bin/phpunit --color tests"
     }
 }

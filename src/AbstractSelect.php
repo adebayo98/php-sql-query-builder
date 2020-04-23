@@ -46,6 +46,8 @@ abstract class AbstractSelect extends Common implements SelectContextInterface
 
     public function __toString()
     {
+        parent::__toString();
+
         $sql = "SELECT";
 
         // Limit for sql server driver
